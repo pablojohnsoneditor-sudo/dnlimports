@@ -663,17 +663,24 @@
       /* Header */
       .header-inner {
         flex-wrap: wrap;
-        padding: 10px 16px;
-        gap: 10px;
+        padding: 8px 12px;
+        gap: 8px;
       }
-      .logo { order: 1; }
+      /* Linha 1: logo + carrinho */
+      .logo { order: 1; flex-shrink: 0; }
       .header-cart {
         order: 2;
         margin-left: auto;
         padding: 8px 14px;
         font-size: 12px;
+        flex-shrink: 0;
       }
-      .search-form { order: 3; width: 100%; }
+      /* Linha 2: busca ocupa largura total */
+      .search-form {
+        order: 3;
+        width: 100%;
+        flex: unset;
+      }
 
       /* Hero */
       .hero { padding: 36px 16px; }
