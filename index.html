@@ -1142,9 +1142,8 @@
     modalProduct = PRODUCTS.find(p => p.id === productId);
     modalImgIndex = 0;
 
-    document.getElementById('modalClub').textContent       = modalProduct.club;
-    document.getElementById('modalName').textContent       = modalProduct.name;
-    document.getElementById('modalHeaderTitle').textContent = modalProduct.name;
+    document.getElementById('modalClub').textContent = modalProduct.club;
+    document.getElementById('modalName').textContent = modalProduct.name;
     document.getElementById('modalPrice').textContent   = `R$ ${fmt(modalProduct.price)}`;
     document.getElementById('modalPriceOld').textContent= `De R$ ${fmt(modalProduct.oldPrice)}`;
 
