@@ -1286,18 +1286,6 @@
   // Fechar modal com ESC
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-  // Botão fechar mobile — suporte a click e touchend
-  const btnFechar = document.getElementById('btnFecharModal');
-  btnFechar.addEventListener('touchend', function(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    closeModal();
-  });
-  btnFechar.addEventListener('click', function(e) {
-    e.stopPropagation();
-    closeModal();
-  });
-
   updateBadge();
   renderProducts();
 </script>
