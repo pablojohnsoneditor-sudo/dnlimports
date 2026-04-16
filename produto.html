@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Produto | Daniel Imports</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .product-page {
+      max-width: 1280px;
+      margin: 24px auto 60px;
+      padding: 0 24px;
+    }
+
+    /* ── MAIN GRID ── */
+    .product-main {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 60px;
+    }
+
+    /* ── GALLERY ── */
+    .gallery { position: sticky; top: 80px; }
+    .gallery-main {
+      background: var(--gray-50);
+      border-radius: var(--radius);
+      aspect-ratio: 1;
+      overflow: hidden;
+      margin-bottom: 12px;
+      position: relative;
+      cursor: zoom-in;
+    }
+    .gallery-main img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform .3s;
+    }
+    .gallery-main:hover img { transform: scale(1.08); }
+    .gallery-main .zoom-hint {
+      position: absolute; bottom: 12px; right: 12px;
+      background: rgba(0,0,0,.5); color: #fff;
+      font-size: 11px; padding: 4px 10px; border-radius: 20px;
+    }
+    .gallery-thumbs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+    .gallery-thumb {
+      background: var(--gray-50);
+      border-radius: 6px;
+      aspect-ratio: 1;
+      overflow: hidden;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: border-color .15s;
+    }
+    .gallery-thumb.active { border-color: var(--accent); }
+    .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* ── PRODUCT INFO ── */
+    .product-detail {}
+
+    .pd-badge { display: inline-flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+    .pd-badge span {
+      font-size: 11px; font-weight: 700;
+      padding: 4px 12px; border-radius: 20px;
+      text-transform: uppercase;
+    }
+
+    .pd-title {
+      font-size: clamp(18px, 2.5vw, 26px);
+      font-weight: 700; line-height: 1.3;
+      margin-bottom: 12px; color: var(--main-fg);
+    }
+
+    .pd-rating {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 16px; flex-wrap: wrap;
+    }
+    .pd-stars { color: var(--yellow); font-size: 16px; }
+    .pd-rating-score { font-weight: 700; font-size: 14px; }
+    .pd-rating-count { color: var(--gray-600); font-size: 13px; }
+    .pd-rating-sep { color: var(--border); }
+    .pd-sold { font-size: 13px; color: var(--gray-600); }
+
+    .pd-price-block {
+      background: var(--gray-50);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .pd-price-old { font-size: 14px; color: var(--gray-400); text-decoration: line-through; margin-bottom: 4px; }
+    .pd-price { font-size: 36px; font-weight: 700; color: var(--main-fg); line-height: 1; margin-bottom: 4px; }
+    .pd-discount { display: inline-block; background: var(--green); color: #fff; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-left: 8px; vertical-align: middle; }
+    .pd-installment { font-size: 14px; color: var(--gray-600); margin-top: 6px; }
+    .pd-installment strong { color: var(--main-fg); }
+    .pd-pix { font-size: 13px; color: var(--green); font-weight: 700; margin-top: 6px; }
+
+    .pd-section-label {
+      font-size: 12px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .5px;
+      color: var(--gray-600); margin-bottom: 10px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .pd-section-label a { font-weight: 400; color: var(--accent); font-size: 11px; text-transform: none; }
+
+    .size-grid {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin-bottom: 20px;
+    }
+    .size-btn {
+      min-width: 52px; height: 44px;
+      border: 2px solid var(--border);
+      border-radius: 6px;
+      background: transparent;
+      font-size: 13px; font-weight: 700;
+      transition: all .15s; position: relative;
+    }
+    .size-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .size-btn.active { border-color: var(--accent); background: var(--accent); color: #001943; }
+    .size-btn.out-of-stock { opacity: .35; cursor: not-allowed; }
+    .size-btn.out-of-stock::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(-45deg, transparent, transparent 3px, rgba(0,0,0,.1) 3px, rgba(0,0,0,.1) 4px);
+      border-radius: 4px;
+    }
+
+    .qty-block {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 20px;
+    }
+    .qty-ctrl {
+      display: flex; align-items: center;
+      border: 1.5px solid var(--border); border-radius: 6px;
+      overflow: hidden;
+    }
+    .qty-ctrl button {
+      width: 36px; height: 40px;
+      background: var(--gray-50); border: none;
+      font-size: 18px; line-height: 1;
+      transition: background .15s;
+    }
+    .qty-ctrl button:hover { background: var(--gray-100); }
+    .qty-ctrl input {
+      width: 50px; height: 40px;
+      border: none; border-left: 1.5px solid var(--border); border-right: 1.5px solid var(--border);
+      text-align: center; font-size: 15px; font-weight: 700;
+      outline: none;
+    }
+    .qty-stock { font-size: 12px; color: var(--gray-600); }
+    .qty-stock.low { color: var(--red); font-weight: 700; }
+
+    .cta-block { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+    .btn-buy-now {
+      width: 100%; padding: 15px;
+      background: var(--accent); color: #001943;
+      border: none; border-radius: var(--radius);
+      font-size: 16px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .5px;
+      transition: background .2s, transform .15s;
+    }
+    .btn-buy-now:hover { background: var(--accent-dark); transform: translateY(-1px); }
+    .btn-add-cart {
+      width: 100%; padding: 14px;
+      background: var(--header-bg); color: #fff;
+      border: none; border-radius: var(--radius);
+      font-size: 15px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .5px;
+      transition: background .2s;
+    }
+    .btn-add-cart:hover { background: #2e2e31; }
+    .btn-wishlist {
+      width: 100%; padding: 12px;
+      background: transparent; color: var(--gray-600);
+      border: 1.5px solid var(--border); border-radius: var(--radius);
+      font-size: 14px; font-weight: 600;
+      transition: all .2s;
+    }
+    .btn-wishlist:hover { border-color: var(--red); color: var(--red); }
+
+    /* ── URGENCY ── */
+    .urgency-bar {
+      background: #fff8ed;
+      border: 1.5px solid #f59e0b40;
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      display: flex; align-items: center; gap: 10px;
+      font-size: 13px;
+    }
+    .urgency-bar .ub-icon { font-size: 18px; }
+    .urgency-bar strong { color: var(--red); }
+
+    .viewing-now {
+      font-size: 12px; color: var(--gray-600);
+      display: flex; align-items: center; gap: 6px;
+      margin-bottom: 16px;
+    }
+    .viewing-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+    /* ── TRUST BADGES ── */
+    .trust-badges {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 8px; margin-bottom: 20px;
+    }
+    .trust-badge {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--gray-50);
+      border-radius: 6px; padding: 10px 12px;
+      font-size: 12px; font-weight: 600; color: var(--main-fg);
+    }
+    .trust-badge .tb-icon { font-size: 18px; flex-shrink: 0; }
+
+    /* ── TABS ── */
+    .pd-tabs { margin-bottom: 60px; }
+    .tab-nav {
+      display: flex; border-bottom: 2px solid var(--border);
+      margin-bottom: 24px; overflow-x: auto;
+    }
+    .tab-btn {
+      padding: 12px 20px;
+      background: transparent; border: none;
+      font-size: 14px; font-weight: 700;
+      color: var(--gray-600);
+      border-bottom: 3px solid transparent; margin-bottom: -2px;
+      white-space: nowrap; transition: color .15s, border-color .15s;
+    }
+    .tab-btn.active { color: var(--main-fg); border-bottom-color: var(--accent); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    .specs-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    .specs-table tr:nth-child(even) { background: var(--gray-50); }
+    .specs-table td { padding: 10px 16px; border-bottom: 1px solid var(--border); }
+    .specs-table td:first-child { font-weight: 700; width: 40%; }
+
+    .size-guide-table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: center; }
+    .size-guide-table th { background: var(--header-bg); color: #fff; padding: 10px 16px; }
+    .size-guide-table td { padding: 10px 16px; border-bottom: 1px solid var(--border); }
+    .size-guide-table tr:nth-child(even) td { background: var(--gray-50); }
+
+    /* ── REVIEWS ── */
+    .reviews-summary {
+      display: flex; gap: 32px; align-items: center;
+      margin-bottom: 24px; flex-wrap: wrap;
+    }
+    .rating-big { text-align: center; }
+    .rating-big .num { font-size: 56px; font-weight: 700; line-height: 1; }
+    .rating-big .stars { font-size: 20px; color: var(--yellow); }
+    .rating-big .total { font-size: 13px; color: var(--gray-600); margin-top: 4px; }
+    .rating-bars { flex: 1; min-width: 200px; }
+    .rating-bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 12px; }
+    .rating-bar-track { flex: 1; height: 6px; background: var(--gray-100); border-radius: 3px; overflow: hidden; }
+    .rating-bar-fill { height: 100%; background: var(--yellow); border-radius: 3px; }
+
+    .review-item { border-bottom: 1px solid var(--border); padding: 20px 0; }
+    .review-item:last-child { border-bottom: none; }
+    .review-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; flex-wrap: wrap; }
+    .review-avatar-lg { width: 40px; height: 40px; border-radius: 50%; background: var(--accent-light); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px; }
+    .review-meta { flex: 1; }
+    .review-name { font-weight: 700; font-size: 14px; }
+    .review-date { font-size: 12px; color: var(--gray-400); }
+    .review-item-stars { color: var(--yellow); font-size: 13px; }
+    .review-item-text { font-size: 13px; color: #444; line-height: 1.7; }
+    .review-verified { font-size: 11px; font-weight: 700; color: var(--green); }
+
+    /* ── RELATED ── */
+    .related { margin-bottom: 60px; }
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 20px;
+    }
+
+    @media (max-width: 900px) {
+      .product-main { grid-template-columns: 1fr; gap: 24px; }
+      .gallery { position: static; }
+    }
+    @media (max-width: 480px) {
+      .trust-badges { grid-template-columns: 1fr; }
+      .related-grid { grid-template-columns: repeat(2,1fr); gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="topbar">🚚 Frete Grátis · 12x Sem Juros · Produto Original Importado</div>
+
+<header>
+  <div class="header-inner">
+    <a href="index.html" class="logo">DANIEL<span>IMPORTS</span></a>
+    <form class="search-form" onsubmit="handleSearch(event)">
+      <input type="search" id="searchInput" placeholder="Buscar camisas, times, seleções...">
+      <button type="submit">🔍</button>
+    </form>
+    <div class="header-actions">
+      <button class="btn-icon">♡</button>
+      <a href="carrinho.html" class="btn-icon" style="position:relative">
+        🛒 <span class="cart-badge" id="cartBadge">0</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-item"><a href="index.html">Home</a></div>
+    <div class="nav-item"><a href="catalogo.html">Seleções ▾</a></div>
+    <div class="nav-item"><a href="catalogo.html?cat=COPA DO MUNDO 2026">Copa do Mundo 2026 🔥</a></div>
+    <div class="nav-item"><a href="catalogo.html">Todos os Produtos</a></div>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="index.html">Home</a><span>›</span>
+  <a href="catalogo.html" id="bcCat">Catálogo</a><span>›</span>
+  <span id="bcName">Produto</span>
+</div>
+
+<div class="product-page">
+
+  <!-- MAIN GRID -->
+  <div class="product-main">
+
+    <!-- GALLERY -->
+    <div class="gallery">
+      <div class="gallery-main" id="galleryMain">
+        <img id="mainImg" src="" alt="Produto">
+        <span class="zoom-hint">🔍 Passe o mouse para zoom</span>
+      </div>
+      <div class="gallery-thumbs" id="galleryThumbs"></div>
+    </div>
+
+    <!-- PRODUCT DETAIL -->
+    <div class="product-detail">
+      <div class="pd-badge" id="pdBadges"></div>
+      <h1 class="pd-title" id="pdTitle"></h1>
+
+      <!-- Rating -->
+      <div class="pd-rating">
+        <span class="pd-stars" id="pdStars"></span>
+        <span class="pd-rating-score" id="pdRatingScore"></span>
+        <span class="pd-rating-count" id="pdRatingCount"></span>
+        <span class="pd-rating-sep">|</span>
+        <span class="pd-sold" id="pdSold"></span>
+      </div>
+
+      <!-- Price -->
+      <div class="pd-price-block">
+        <div class="pd-price-old" id="pdOldPrice"></div>
+        <div>
+          <span class="pd-price" id="pdPrice"></span>
+          <span class="pd-discount" id="pdDiscount"></span>
+        </div>
+        <div class="pd-installment" id="pdInstallment"></div>
+        <div class="pd-pix" id="pdPix"></div>
+      </div>
+
+      <!-- Viewing now -->
+      <div class="viewing-now"><div class="viewing-dot"></div><span id="viewingCount"></span></div>
+
+      <!-- Urgency -->
+      <div class="urgency-bar" id="urgencyBar">
+        <span class="ub-icon">⚡</span>
+        <span id="urgencyText"></span>
+      </div>
+
+      <!-- Sizes -->
+      <div class="pd-section-label">Selecione o Tamanho <a href="#tab-guia">Ver guia de tamanhos →</a></div>
+      <div class="size-grid" id="sizeGrid"></div>
+
+      <!-- Qty -->
+      <div class="pd-section-label">Quantidade</div>
+      <div class="qty-block">
+        <div class="qty-ctrl">
+          <button onclick="changeQty(-1)">−</button>
+          <input type="number" id="qtyInput" value="1" min="1" max="10">
+          <button onclick="changeQty(1)">+</button>
+        </div>
+        <span class="qty-stock" id="qtyStock"></span>
+      </div>
+
+      <!-- CTA -->
+      <div class="cta-block">
+        <button class="btn-buy-now" onclick="buyNow()">⚡ Comprar Agora</button>
+        <button class="btn-add-cart" onclick="addToCartPage()">🛒 Adicionar ao Carrinho</button>
+        <button class="btn-wishlist">♡ Salvar na Lista de Desejos</button>
+      </div>
+
+      <!-- Trust badges -->
+      <div class="trust-badges">
+        <div class="trust-badge"><span class="tb-icon">🚚</span> Frete Grátis</div>
+        <div class="trust-badge"><span class="tb-icon">💳</span> 12x Sem Juros</div>
+        <div class="trust-badge"><span class="tb-icon">🔒</span> Compra Segura</div>
+        <div class="trust-badge"><span class="tb-icon">🔄</span> Troca Garantida</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="pd-tabs">
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="switchTab('desc', this)">Descrição</button>
+      <button class="tab-btn" onclick="switchTab('specs', this)">Especificações</button>
+      <button class="tab-btn" id="tab-guia" onclick="switchTab('guia', this)">Guia de Tamanhos</button>
+      <button class="tab-btn" onclick="switchTab('reviews', this)">Avaliações <span id="reviewCount"></span></button>
+    </div>
+
+    <div class="tab-panel active" id="tab-desc">
+      <div id="pdDescription" style="font-size:14px;line-height:1.9;color:#333;max-width:720px"></div>
+    </div>
+
+    <div class="tab-panel" id="tab-specs">
+      <table class="specs-table" id="specsTable"></table>
+    </div>
+
+    <div class="tab-panel" id="tab-guia">
+      <p style="margin-bottom:16px;font-size:14px;color:var(--gray-600)">Medidas em centímetros. Em caso de dúvida, prefira o tamanho maior.</p>
+      <table class="size-guide-table">
+        <thead><tr><th>Tamanho</th><th>Busto (cm)</th><th>Comprimento (cm)</th><th>Equivalente</th></tr></thead>
+        <tbody>
+          <tr><td>PP</td><td>88-92</td><td>68</td><td>XS</td></tr>
+          <tr><td>P</td><td>92-96</td><td>70</td><td>S</td></tr>
+          <tr><td>M</td><td>96-100</td><td>72</td><td>M</td></tr>
+          <tr><td>G</td><td>100-104</td><td>74</td><td>L</td></tr>
+          <tr><td>GG</td><td>104-110</td><td>76</td><td>XL</td></tr>
+          <tr><td>XGG</td><td>110-118</td><td>78</td><td>2XL</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tab-panel" id="tab-reviews">
+      <div class="reviews-summary">
+        <div class="rating-big">
+          <div class="num" id="revAvg"></div>
+          <div class="stars" id="revStars"></div>
+          <div class="total" id="revTotal"></div>
+        </div>
+        <div class="rating-bars" id="ratingBars"></div>
+      </div>
+      <div id="reviewsList"></div>
+    </div>
+  </div>
+
+  <!-- RELATED -->
+  <section class="related">
+    <h2 class="section-title">Você também pode gostar</h2>
+    <div class="related-grid" id="relatedGrid"></div>
+  </section>
+
+</div>
+
+<!-- PROMO STRIP -->
+<div class="promo-strip">
+  <div class="promo-strip-inner">
+    <div class="promo-item"><div class="promo-icon">🚚</div><h3>Frete Grátis</h3><p>Para todo o Brasil</p></div>
+    <div class="promo-item"><div class="promo-icon">💳</div><h3>12x sem Juros</h3><p>No cartão de crédito</p></div>
+    <div class="promo-item"><div class="promo-icon">🔒</div><h3>Compra Segura</h3><p>Dados 100% protegidos</p></div>
+    <div class="promo-item"><div class="promo-icon">🔄</div><h3>Troca Garantida</h3><p>Sem complicação</p></div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="logo">DANIEL<span>IMPORTS</span></span>
+      <p>Na Daniel Imports você encontra camisas de futebol dos principais clubes e seleções do mundo.</p>
+    </div>
+    <div class="footer-col"><h4>Categorias</h4><ul>
+      <li><a href="catalogo.html?cat=Seleções">Seleções</a></li>
+      <li><a href="catalogo.html?cat=COPA DO MUNDO 2026">Copa 2026</a></li>
+      <li><a href="catalogo.html?cat=Infantil">Infantil</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Institucional</h4><ul>
+      <li><a href="#">Sobre a loja</a></li>
+      <li><a href="#">Perguntas frequentes</a></li>
+      <li><a href="#">Trocas e devoluções</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Contato</h4><ul>
+      <li><a href="#">WhatsApp</a></li>
+      <li><a href="#">Instagram</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Daniel Imports · Todos os direitos reservados</span>
+  </div>
+</footer>
+
+<a href="#" class="whatsapp-btn">💬</a>
+<div class="toast" id="toast"><span class="toast-icon">✓</span><span id="toastMsg"></span></div>
+
+<script src="js/store.js"></script>
+<script>
+  let product = null;
+  let selectedSize = null;
+
+  function handleSearch(e) {
+    e.preventDefault();
+    const q = document.getElementById('searchInput').value.trim();
+    if (q) window.location.href = `catalogo.html?q=${encodeURIComponent(q)}`;
+  }
+
+  function switchTab(id, btn) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(`tab-${id}`).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  function selectSize(size, btn) {
+    if (btn.classList.contains('out-of-stock')) return;
+    selectedSize = size;
+    document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  function changeQty(delta) {
+    const input = document.getElementById('qtyInput');
+    const val = parseInt(input.value) + delta;
+    if (val >= 1 && val <= 10) input.value = val;
+  }
+
+  function addToCartPage() {
+    if (!selectedSize) { Store.toast('Selecione um tamanho!'); return; }
+    const qty = parseInt(document.getElementById('qtyInput').value);
+    Store.addToCart(product.id, selectedSize, qty);
+    Store.updateBadge();
+    Store.toast(`Adicionado ao carrinho! (Tam: ${selectedSize})`);
+  }
+
+  function buyNow() {
+    if (!selectedSize) { Store.toast('Selecione um tamanho!'); return; }
+    const qty = parseInt(document.getElementById('qtyInput').value);
+    Store.addToCart(product.id, selectedSize, qty);
+    window.location.href = 'carrinho.html';
+  }
+
+  function renderStars(rating) {
+    const full = Math.floor(rating);
+    const half = rating % 1 >= 0.5;
+    return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(5 - full - (half ? 1 : 0));
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    Store.updateBadge();
+    const id = new URLSearchParams(window.location.search).get('id') || 1;
+    product = Store.getProduct(id);
+    if (!product) { document.body.innerHTML = '<p style="padding:40px;text-align:center">Produto não encontrado. <a href="catalogo.html">Voltar ao catálogo</a></p>'; return; }
+
+    // Breadcrumb
+    document.getElementById('bcCat').textContent  = product.category;
+    document.getElementById('bcCat').href         = `catalogo.html?cat=${encodeURIComponent(product.category)}`;
+    document.getElementById('bcName').textContent = product.name.substring(0, 40) + '…';
+    document.title = `${product.name} | Daniel Imports`;
+
+    // Gallery (simula 4 ângulos com cores diferentes)
+    const imgs = [product.img, product.img, product.img, product.img];
+    document.getElementById('mainImg').src = imgs[0];
+    document.getElementById('galleryThumbs').innerHTML = imgs.map((src, i) =>
+      `<div class="gallery-thumb ${i===0?'active':''}" onclick="setImg('${src}', this)"><img src="${src}" alt=""></div>`
+    ).join('');
+
+    // Badges
+    const badges = [];
+    if (product.badge) badges.push(`<span class="product-badge ${product.badgeType}">${product.badge}</span>`);
+    badges.push(`<span class="product-badge badge-destaque" style="position:static">🚚 Frete Grátis</span>`);
+    document.getElementById('pdBadges').innerHTML = badges.join('');
+
+    // Title
+    document.getElementById('pdTitle').textContent = product.name;
+
+    // Rating
+    document.getElementById('pdStars').textContent = renderStars(product.rating);
+    document.getElementById('pdRatingScore').textContent = product.rating.toFixed(1);
+    document.getElementById('pdRatingCount').textContent = `(${product.reviews} avaliações)`;
+    document.getElementById('pdSold').textContent = `${product.reviews * 3 + 50}+ vendidos`;
+    document.getElementById('reviewCount').textContent = `(${product.reviews})`;
+
+    // Price
+    const disc = Store.discount(product.price, product.oldPrice);
+    if (product.oldPrice) document.getElementById('pdOldPrice').textContent = `De: R$ ${Store.fmt(product.oldPrice)}`;
+    document.getElementById('pdPrice').textContent = `R$ ${Store.fmt(product.price)}`;
+    if (disc) document.getElementById('pdDiscount').textContent = `-${disc}%`;
+    document.getElementById('pdInstallment').innerHTML = `ou <strong>12x de R$ ${Store.fmt(product.price/12)}</strong> sem juros`;
+    document.getElementById('pdPix').textContent = `💰 R$ ${Store.fmt(product.price * 0.95)} no PIX (5% de desconto)`;
+
+    // Viewing
+    document.getElementById('viewingCount').textContent = `${Math.floor(Math.random()*8)+3} pessoas estão vendo este produto agora`;
+
+    // Urgency
+    if (product.stock <= 8) {
+      document.getElementById('urgencyText').innerHTML = `<strong>Atenção!</strong> Restam apenas <strong>${product.stock} unidades</strong> em estoque. Garanta o seu!`;
+    } else {
+      document.getElementById('urgencyBar').style.display = 'none';
+    }
+
+    // Stock label
+    const stockEl = document.getElementById('qtyStock');
+    stockEl.textContent = product.stock <= 5 ? `⚠️ Últimas ${product.stock} unidades!` : `${product.stock} unidades disponíveis`;
+    if (product.stock <= 5) stockEl.classList.add('low');
+
+    // Sizes
+    const sizes = Store.SIZES;
+    document.getElementById('sizeGrid').innerHTML = sizes.map(s => {
+      const oos = Math.random() < 0.1; // 10% chance esgotado
+      return `<button class="size-btn ${oos?'out-of-stock':''}" onclick="selectSize('${s}', this)" ${oos?'title="Esgotado"':''}>${s}</button>`;
+    }).join('');
+
+    // Description
+    document.getElementById('pdDescription').innerHTML = `
+      <p>A <strong>${product.name}</strong> é um produto oficial de alta qualidade, desenvolvida com tecnologia avançada para proporcionar conforto e estilo tanto dentro quanto fora de campo.</p>
+      <br>
+      <p><strong>Tecnologia Nike Dri-FIT:</strong> O tecido especial afasta o suor do corpo, mantendo você seco e confortável durante o jogo ou na torcida.</p>
+      <br>
+      <p><strong>Detalhes exclusivos:</strong> Bordado oficial com escudo aplicado, gola ribana com acabamento premium, costura dupla reforçada nas mangas e barra.</p>
+      <br>
+      <p>Ideal para presentear ou usar no dia a dia, nas arquibancadas ou assistindo ao jogo em casa. Produto importado original com garantia de autenticidade.</p>
+    `;
+
+    // Specs
+    document.getElementById('specsTable').innerHTML = `
+      <tr><td>Marca</td><td>${product.brand}</td></tr>
+      <tr><td>Categoria</td><td>${product.category}</td></tr>
+      <tr><td>Composição</td><td>100% Poliéster Reciclado</td></tr>
+      <tr><td>Tecnologia</td><td>Nike Dri-FIT</td></tr>
+      <tr><td>Origem</td><td>Importado</td></tr>
+      <tr><td>Gênero</td><td>Masculino</td></tr>
+      <tr><td>Tamanhos disponíveis</td><td>PP, P, M, G, GG, XGG</td></tr>
+      <tr><td>Tipo de produto</td><td>Camisa de Futebol Torcedor</td></tr>
+    `;
+
+    // Reviews tab
+    document.getElementById('revAvg').textContent = product.rating.toFixed(1);
+    document.getElementById('revStars').textContent = renderStars(product.rating);
+    document.getElementById('revTotal').textContent = `${product.reviews} avaliações`;
+
+    const bars = [[5,75],[4,18],[3,5],[2,1],[1,1]];
+    document.getElementById('ratingBars').innerHTML = bars.map(([star, pct]) =>
+      `<div class="rating-bar-row"><span>★${star}</span><div class="rating-bar-track"><div class="rating-bar-fill" style="width:${pct}%"></div></div><span>${pct}%</span></div>`
+    ).join('');
+
+    const sampleReviews = [
+      { name: 'Carlos M.', city: 'São Paulo, SP', rating: 5, date: '12/04/2026', text: 'Produto perfeito! Chegou muito rápido e é exatamente como na foto. Qualidade impecável, tecido leve e confortável. Já comprei 3 camisas aqui e nunca me decepcionei!' },
+      { name: 'Fernanda L.', city: 'Rio de Janeiro, RJ', rating: 5, date: '08/04/2026', text: 'Comprei de presente para meu marido e ele adorou. Embalagem bonita, produto original. O frete grátis foi um diferencial. Com certeza vou comprar mais!' },
+      { name: 'Ricardo S.', city: 'Curitiba, PR', rating: 4, date: '01/04/2026', text: 'Camisa de ótima qualidade, tecido diferenciado. Demorou 4 dias para chegar, mas valeu a pena. O tamanho G ficou perfeito para mim (1,80m / 80kg).' },
+    ];
+    document.getElementById('reviewsList').innerHTML = sampleReviews.map(r => `
+      <div class="review-item">
+        <div class="review-header">
+          <div class="review-avatar-lg">${r.name.split(' ').map(x=>x[0]).join('')}</div>
+          <div class="review-meta">
+            <div class="review-name">${r.name} <span class="review-verified">✓ Compra verificada</span></div>
+            <div class="review-date">${r.city} · ${r.date}</div>
+          </div>
+          <div class="review-item-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div>
+        </div>
+        <div class="review-item-text">${r.text}</div>
+      </div>
+    `).join('');
+
+    // Related
+    const related = Store.getRelated(product.id, 4);
+    document.getElementById('relatedGrid').innerHTML = related.map(p => Store.renderCard(p)).join('');
+  });
+
+  function setImg(src, el) {
+    document.getElementById('mainImg').src = src;
+    document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daniel Imports | Camisas de Futebol Importadas</title>
+  <meta name="description" content="Camisas de futebol dos principais clubes e seleções do mundo. Frete Grátis e Parcelamento em até 12x.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ── HERO BANNER ── */
+    .hero {
+      background: linear-gradient(135deg, #001943 0%, #003080 60%, #001943 100%);
+      min-height: 420px;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(0,209,247,.12) 0%, transparent 70%);
+      right: -100px; top: 50%;
+      transform: translateY(-50%);
+    }
+    .hero-inner {
+      max-width: 1280px; margin: 0 auto;
+      padding: 60px 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(0,209,247,.15);
+      border: 1px solid rgba(0,209,247,.3);
+      color: var(--accent);
+      font-size: 12px; font-weight: 700;
+      letter-spacing: 1px; text-transform: uppercase;
+      padding: 6px 14px; border-radius: 20px;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: clamp(28px, 4vw, 50px);
+      font-weight: 700; line-height: 1.15;
+      color: #fff; margin-bottom: 16px;
+    }
+    .hero h1 span { color: var(--accent); }
+    .hero p { font-size: 16px; color: #aac4dd; margin-bottom: 28px; line-height: 1.7; }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .hero-img {
+      display: flex; align-items: center; justify-content: center;
+    }
+    .hero-img-placeholder {
+      width: 340px; height: 340px;
+      background: rgba(255,255,255,.05);
+      border: 2px dashed rgba(0,209,247,.3);
+      border-radius: 50%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      color: rgba(255,255,255,.4);
+      font-size: 80px;
+    }
+    .hero-img-placeholder span { font-size: 14px; margin-top: 8px; }
+
+    /* ── TRUST BAR ── */
+    .trust-bar {
+      background: var(--gray-50);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+    }
+    .trust-bar-inner {
+      max-width: 1280px; margin: 0 auto;
+      display: flex; gap: 32px;
+      align-items: center; justify-content: center;
+      flex-wrap: wrap;
+    }
+    .trust-item {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 700; color: var(--main-fg);
+    }
+    .trust-item .ti { font-size: 18px; }
+
+    /* ── CATEGORIES ── */
+    .cats { max-width: 1280px; margin: 40px auto 0; padding: 0 24px; }
+    .cats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 12px;
+    }
+    .cat-card {
+      background: var(--header-bg); color: #fff;
+      border-radius: var(--radius);
+      padding: 20px 12px; text-align: center;
+      font-size: 12px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .4px;
+      transition: background .2s, transform .15s;
+      cursor: pointer;
+    }
+    .cat-card:hover { background: #2e2e31; transform: translateY(-2px); }
+    .cat-card .ci { font-size: 26px; display: block; margin-bottom: 8px; }
+    .cat-card a { color: inherit; }
+
+    /* ── FEATURED ── */
+    .featured { max-width: 1280px; margin: 48px auto 0; padding: 0 24px; }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    /* ── BANNER MEIO ── */
+    .mid-banner {
+      background: linear-gradient(90deg, #001943 0%, #003494 100%);
+      margin: 48px 0 0;
+      padding: 48px 24px;
+      text-align: center;
+      color: #fff;
+    }
+    .mid-banner-inner { max-width: 700px; margin: 0 auto; }
+    .mid-banner h2 { font-size: clamp(22px, 3vw, 34px); font-weight: 700; margin-bottom: 12px; }
+    .mid-banner h2 span { color: var(--accent); }
+    .mid-banner p { color: #aac4dd; margin-bottom: 24px; font-size: 15px; }
+
+    /* ── SOCIAL PROOF ── */
+    .social-proof { max-width: 1280px; margin: 48px auto 0; padding: 0 24px; }
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .review-card {
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+    .review-stars { color: var(--yellow); font-size: 14px; margin-bottom: 8px; }
+    .review-text { font-size: 13px; color: #444; line-height: 1.6; margin-bottom: 12px; font-style: italic; }
+    .review-author { font-size: 12px; font-weight: 700; color: var(--gray-600); display: flex; align-items: center; gap: 8px; }
+    .review-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--accent-light); display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--main-fg); font-size: 13px; }
+
+    @media (max-width: 768px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-img { display: none; }
+    }
+    @media (max-width: 480px) {
+      .products-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="topbar">🚚 Frete Grátis para todo o Brasil · Parcele em até 12x sem juros · Produto Importado Original</div>
+
+<header>
+  <div class="header-inner">
+    <a href="index.html" class="logo">DANIEL<span>IMPORTS</span></a>
+    <form class="search-form" onsubmit="handleSearch(event)">
+      <input type="search" id="searchInput" placeholder="Buscar camisas, times, seleções...">
+      <button type="submit">🔍</button>
+    </form>
+    <div class="header-actions">
+      <button class="btn-icon" title="Favoritos">♡</button>
+      <a href="carrinho.html" class="btn-icon" title="Carrinho" style="position:relative">
+        🛒 <span class="cart-badge" id="cartBadge">0</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-item"><a href="index.html" class="active">Home</a></div>
+    <div class="nav-item">
+      <a href="catalogo.html">Seleções ▾</a>
+      <div class="dropdown">
+        <a href="catalogo.html?cat=Seleções">Todas as Seleções</a>
+        <a href="catalogo.html?cat=Brasil">Brasil</a>
+        <a href="catalogo.html?cat=Argentina">Argentina</a>
+        <a href="catalogo.html?cat=Portugal">Portugal</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <a href="catalogo.html">Clubes ▾</a>
+      <div class="dropdown">
+        <a href="catalogo.html?cat=Clubes">Todos os Clubes</a>
+        <a href="catalogo.html?cat=Real Madrid">Real Madrid</a>
+        <a href="catalogo.html?cat=Barcelona">Barcelona</a>
+        <a href="catalogo.html?cat=Manchester City">Manchester City</a>
+      </div>
+    </div>
+    <div class="nav-item"><a href="catalogo.html?cat=COPA DO MUNDO 2026">Copa do Mundo 2026 🔥</a></div>
+    <div class="nav-item"><a href="catalogo.html?cat=Infantil">Infantil</a></div>
+    <div class="nav-item"><a href="catalogo.html?cat=Feminino">Feminino</a></div>
+    <div class="nav-item"><a href="catalogo.html">Todos os Produtos</a></div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-tag">⚽ Copa do Mundo 2026</div>
+      <h1>Camisas Oficiais<br>dos Melhores<br><span>Times do Mundo</span></h1>
+      <p>Produto importado original. Frete Grátis para todo o Brasil, parcelamento em até 12x sem juros.</p>
+      <div class="hero-actions">
+        <a href="catalogo.html" class="btn-primary">Ver Catálogo Completo</a>
+        <a href="catalogo.html?cat=COPA DO MUNDO 2026" class="btn-secondary" style="color:#fff;border-color:rgba(255,255,255,.3)">Copa 2026</a>
+      </div>
+    </div>
+    <div class="hero-img">
+      <div class="hero-img-placeholder">
+        ⚽
+        <span>Sua Camisa Aqui</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-bar-inner">
+    <div class="trust-item"><span class="ti">🚚</span> Frete Grátis</div>
+    <div class="trust-item"><span class="ti">💳</span> 12x Sem Juros</div>
+    <div class="trust-item"><span class="ti">🔒</span> Compra 100% Segura</div>
+    <div class="trust-item"><span class="ti">🔄</span> Troca Garantida</div>
+    <div class="trust-item"><span class="ti">✅</span> Produto Original Importado</div>
+    <div class="trust-item"><span class="ti">📦</span> Entrega em Todo o Brasil</div>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<section class="cats">
+  <h2 class="section-title">Comprar por Categoria</h2>
+  <div class="cats-grid">
+    <div class="cat-card"><a href="catalogo.html"><span class="ci">🌐</span>Tudo</a></div>
+    <div class="cat-card"><a href="catalogo.html?cat=COPA DO MUNDO 2026"><span class="ci">🏆</span>Copa 2026</a></div>
+    <div class="cat-card"><a href="catalogo.html?cat=Seleções"><span class="ci">🇧🇷</span>Seleções</a></div>
+    <div class="cat-card"><a href="catalogo.html?cat=Clubes"><span class="ci">⚽</span>Clubes</a></div>
+    <div class="cat-card"><a href="catalogo.html?cat=Nike"><span class="ci">✔</span>Nike</a></div>
+    <div class="cat-card"><a href="catalogo.html?cat=Adidas"><span class="ci">〰</span>Adidas</a></div>
+    <div class="cat-card"><a href="catalogo.html?cat=Infantil"><span class="ci">👦</span>Infantil</a></div>
+    <div class="cat-card"><a href="catalogo.html?cat=Feminino"><span class="ci">👩</span>Feminino</a></div>
+  </div>
+</section>
+
+<!-- FEATURED PRODUCTS -->
+<section class="featured">
+  <h2 class="section-title">🔥 Mais Vendidos</h2>
+  <div class="products-grid" id="featuredGrid"></div>
+  <div style="text-align:center;margin-top:32px">
+    <a href="catalogo.html" class="btn-dark">Ver Todos os Produtos →</a>
+  </div>
+</section>
+
+<!-- MID BANNER -->
+<div class="mid-banner">
+  <div class="mid-banner-inner">
+    <h2>Coleção <span>Copa do Mundo 2026</span><br>já disponível!</h2>
+    <p>Vista a camisa do Brasil para a Copa. Modelos oficiais Nike com tecnologia de alto desempenho.</p>
+    <a href="catalogo.html?cat=COPA DO MUNDO 2026" class="btn-primary">Ver Coleção Copa 2026</a>
+  </div>
+</div>
+
+<!-- PRODUTOS NOVIDADES -->
+<section class="featured" style="margin-top:48px">
+  <h2 class="section-title">✨ Novidades</h2>
+  <div class="products-grid" id="novosGrid"></div>
+</section>
+
+<!-- SOCIAL PROOF -->
+<section class="social-proof" style="margin-bottom:48px">
+  <h2 class="section-title">⭐ O que nossos clientes dizem</h2>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Produto chegou rapidíssimo e é exatamente igual ao da loja oficial. Qualidade impecável, tecido diferenciado. Já é a terceira camisa que compro aqui!"</p>
+      <div class="review-author"><div class="review-avatar">MR</div> Marcos R. — São Paulo, SP</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Comprei o kit infantil para o meu filho e ele amou! Entrega super rápida, embalagem ótima. Produto original e com preço justo. Recomendo demais!"</p>
+      <div class="review-author"><div class="review-avatar">AF</div> Ana F. — Rio de Janeiro, RJ</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"A camisa do Brasil chegou em 3 dias! Frete grátis de verdade. Tecido de altíssima qualidade, costura perfeita. Melhor loja de camisas importadas que já comprei."</p>
+      <div class="review-author"><div class="review-avatar">JP</div> João P. — Belo Horizonte, MG</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★☆</div>
+      <p class="review-text">"Atendimento excelente pelo WhatsApp, me ajudaram a escolher o tamanho certo. A camisa chegou bem embalada e é muito bonita. Com certeza voltarei a comprar!"</p>
+      <div class="review-author"><div class="review-avatar">CS</div> Carla S. — Curitiba, PR</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROMO STRIP -->
+<div class="promo-strip">
+  <div class="promo-strip-inner">
+    <div class="promo-item"><div class="promo-icon">🚚</div><h3>Frete Grátis</h3><p>Para todo o Brasil sem valor mínimo</p></div>
+    <div class="promo-item"><div class="promo-icon">💳</div><h3>12x sem Juros</h3><p>Parcele no cartão sem acréscimo</p></div>
+    <div class="promo-item"><div class="promo-icon">🔄</div><h3>Troca Garantida</h3><p>Produto com defeito? A gente resolve</p></div>
+    <div class="promo-item"><div class="promo-icon">🔒</div><h3>Compra Segura</h3><p>Seus dados 100% protegidos</p></div>
+    <div class="promo-item"><div class="promo-icon">📞</div><h3>Suporte via WhatsApp</h3><p>Atendimento rápido e humanizado</p></div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="logo">DANIEL<span>IMPORTS</span></span>
+      <p>Na Daniel Imports você encontra camisas de futebol e artigos esportivos dos principais clubes e seleções do mundo. Produto importado com qualidade garantida.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Institucional</h4>
+      <ul>
+        <li><a href="#">Sobre a loja</a></li>
+        <li><a href="#">Perguntas frequentes</a></li>
+        <li><a href="#">Trocas e devoluções</a></li>
+        <li><a href="#">Como cuidar da camisa</a></li>
+        <li><a href="#">Política de privacidade</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Categorias</h4>
+      <ul>
+        <li><a href="catalogo.html?cat=Seleções">Seleções</a></li>
+        <li><a href="catalogo.html?cat=Clubes">Clubes</a></li>
+        <li><a href="catalogo.html?cat=COPA DO MUNDO 2026">Copa do Mundo 2026</a></li>
+        <li><a href="catalogo.html?cat=Infantil">Infantil</a></li>
+        <li><a href="catalogo.html?cat=Feminino">Feminino</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Atendimento</h4>
+      <ul>
+        <li><a href="#">WhatsApp</a></li>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">E-mail</a></li>
+        <li><a href="#">Rastrear pedido</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Daniel Imports · Todos os direitos reservados</span>
+    <span>CNPJ: 00.000.000/0001-00</span>
+  </div>
+</footer>
+
+<!-- WhatsApp Float -->
+<a href="#" class="whatsapp-btn" title="Fale conosco no WhatsApp">💬</a>
+
+<!-- Toast -->
+<div class="toast" id="toast"><span class="toast-icon">✓</span><span id="toastMsg"></span></div>
+
+<script src="js/store.js"></script>
+<script>
+  function handleSearch(e) {
+    e.preventDefault();
+    const q = document.getElementById('searchInput').value.trim();
+    if (q) window.location.href = `catalogo.html?q=${encodeURIComponent(q)}`;
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    Store.updateBadge();
+
+    // Mais vendidos: produtos com mais reviews
+    const top = [...Store.PRODUCTS].sort((a, b) => b.reviews - a.reviews).slice(0, 8);
+    document.getElementById('featuredGrid').innerHTML = top.map(p => Store.renderCard(p)).join('');
+
+    // Novidades: badge novo ou últimos 4
+    const novos = Store.PRODUCTS.filter(p => p.badge === 'Novo' || p.badge === 'Lançamento' || p.badge === 'Infantil' || p.badge === 'Feminino').slice(0, 4);
+    document.getElementById('novosGrid').innerHTML = novos.map(p => Store.renderCard(p)).join('');
+  });
+</script>
+</body>
+</html>
