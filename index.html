@@ -473,16 +473,52 @@
       width: 100%;
       max-width: 900px;
       max-height: 92vh;
-      overflow-y: auto;
+      overflow: hidden;
       position: relative;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+      display: flex;
+      flex-direction: column;
       box-shadow: 0 24px 64px rgba(0,0,0,.3);
       animation: modalIn .25s ease;
     }
+
+    /* Área rolável — desktop: grid 2 colunas lado a lado */
+    .modal-scroll-area {
+      flex: 1;
+      overflow-y: auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
     @keyframes modalIn { from { opacity:0; transform: scale(.95); } to { opacity:1; transform: scale(1); } }
 
-    .modal-header-bar { display: none; }
+    /* Barra verde superior do modal */
+    .modal-header-bar {
+      display: none; /* desktop: não aparece */
+      background: var(--green);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 12px 16px;
+      border-radius: 20px 20px 0 0;
+      text-align: center;
+      letter-spacing: .3px;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .modal-close-x {
+      display: none;
+      position: absolute;
+      right: 12px; top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,.2);
+      border: none;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      line-height: 1;
+    }
 
     /* Botão fechar — desktop: canto superior direito */
     .modal-close {
@@ -507,7 +543,7 @@
     .modal-close-mobile {
       display: none;
       width: 100%;
-      padding: 12px;
+      padding: 14px;
       background: var(--gray-100);
       border: none;
       border-top: 1px solid var(--border);
@@ -518,6 +554,10 @@
       text-align: center;
       border-radius: 0 0 20px 20px;
       grid-column: 1 / -1;
+      position: relative;
+      z-index: 50;
+      -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+      touch-action: manipulation;
     }
 
     /* Indicador de arrasto */
@@ -725,20 +765,37 @@
       .btn-whatsapp { font-size: 12px; padding: 10px 6px; gap: 4px; }
       .btn-cart { font-size: 12px; padding: 8px 6px; }
 
-      /* Modal - empilhado verticalmente */
+      /* Modal mobile — sobe da base */
       .modal-overlay { padding: 0; align-items: flex-end; }
       .modal-box {
-        grid-template-columns: 1fr;
-        max-height: 95vh;
+        max-height: 90vh;
         border-radius: 20px 20px 0 0;
         width: 100%;
         max-width: 100%;
       }
-      .modal-drag-handle { display: block; }
+      /* Barra verde: aparece e fica no topo */
+      .modal-header-bar {
+        display: block;
+        border-radius: 20px 20px 0 0;
+      }
+      .modal-close-x { display: block; }
+      /* Área de conteúdo: coluna única, rolável */
+      .modal-scroll-area {
+        grid-template-columns: 1fr;
+        -webkit-overflow-scrolling: touch;
+      }
       .modal-gallery { border-radius: 0; }
       .modal-close { display: none; }
-      .modal-close-mobile { display: block; }
-      .modal-gallery-main { min-height: 260px; max-height: 300px; }
+      /* Botão fechar: sempre no fundo, nunca sobe */
+      .modal-close-mobile {
+        display: block;
+        flex-shrink: 0;
+        position: static;
+        z-index: 50;
+        box-shadow: 0 -4px 12px rgba(0,0,0,.10);
+        border-radius: 0;
+      }
+      .modal-gallery-main { min-height: 240px; max-height: 280px; }
       .modal-info { padding: 16px; gap: 10px; }
       .modal-name { font-size: 16px; }
       .modal-price { font-size: 28px; }
@@ -851,47 +908,52 @@
 <!-- MODAL PRODUTO -->
 <div class="modal-overlay" id="productModal" onclick="closeModalOnOverlay(event)">
   <div class="modal-box">
-    <div class="modal-drag-handle"></div>
+    <div class="modal-header-bar" id="modalHeaderTitle">
+      Detalhes do Produto
+      <button class="modal-close-x" onclick="closeModal()">✕</button>
+    </div>
     <button class="modal-close" onclick="closeModal()">✕</button>
 
-    <div class="modal-gallery">
-      <div class="modal-gallery-main" id="modalGalleryMain">
-        <img id="modalMainImg" src="" alt="">
-        <div class="modal-gallery-nav">
-          <button class="modal-nav-btn" onclick="modalNav(-1)">‹</button>
-          <button class="modal-nav-btn" onclick="modalNav(1)">›</button>
+    <div class="modal-scroll-area">
+      <div class="modal-gallery">
+        <div class="modal-gallery-main" id="modalGalleryMain">
+          <img id="modalMainImg" src="" alt="">
+          <div class="modal-gallery-nav">
+            <button class="modal-nav-btn" onclick="modalNav(-1)">‹</button>
+            <button class="modal-nav-btn" onclick="modalNav(1)">›</button>
+          </div>
+        </div>
+        <div class="modal-thumbs" id="modalThumbs"></div>
+      </div>
+
+      <div class="modal-info">
+        <div>
+          <div class="modal-club" id="modalClub"></div>
+          <div class="modal-name" id="modalName"></div>
+        </div>
+        <span class="modal-badge" id="modalBadge"></span>
+        <div class="modal-price-block">
+          <div class="modal-price-old" id="modalPriceOld"></div>
+          <div class="modal-price" id="modalPrice"></div>
+          <div class="modal-price-tag">à vista · ou em até 12x</div>
+        </div>
+        <div class="modal-divider"></div>
+        <div>
+          <div class="modal-sizes-label">Selecione o tamanho:</div>
+          <div class="modal-sizes-row" id="modalSizes"></div>
+        </div>
+        <div class="modal-actions">
+          <button class="modal-btn-whatsapp" onclick="modalOrderWhatsApp()">💬 Pedir no WhatsApp</button>
+          <button class="modal-btn-cart" onclick="modalAddToCart()">🛒 Adicionar ao Carrinho</button>
+        </div>
+        <div class="modal-trust">
+          <span class="modal-trust-item">✅ Original importado</span>
+          <span class="modal-trust-item">🔒 Compra segura</span>
+          <span class="modal-trust-item">⚡ Resposta rápida</span>
         </div>
       </div>
-      <div class="modal-thumbs" id="modalThumbs"></div>
     </div>
 
-    <div class="modal-info">
-      <div>
-        <div class="modal-club" id="modalClub"></div>
-        <div class="modal-name" id="modalName"></div>
-      </div>
-      <span class="modal-badge" id="modalBadge"></span>
-      <div class="modal-price-block">
-        <div class="modal-price-old" id="modalPriceOld"></div>
-        <div class="modal-price" id="modalPrice"></div>
-        <div class="modal-price-tag">à vista · ou em até 12x</div>
-      </div>
-      <div class="modal-divider"></div>
-      <div>
-        <div class="modal-sizes-label">Selecione o tamanho:</div>
-        <div class="modal-sizes-row" id="modalSizes"></div>
-      </div>
-      <div class="modal-actions">
-        <button class="modal-btn-whatsapp" onclick="modalOrderWhatsApp()">💬 Pedir no WhatsApp</button>
-        <button class="modal-btn-cart" onclick="modalAddToCart()">🛒 Adicionar ao Carrinho</button>
-      </div>
-      <div class="modal-trust">
-        <span class="modal-trust-item">✅ Original importado</span>
-        <span class="modal-trust-item">🔒 Compra segura</span>
-        <span class="modal-trust-item">⚡ Resposta rápida</span>
-      </div>
-    </div>
-    <button class="modal-close-mobile" onclick="closeModal()">✕ Fechar</button>
   </div>
 </div>
 
@@ -1223,6 +1285,18 @@
 
   // Fechar modal com ESC
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  // Botão fechar mobile — suporte a click e touchend
+  const btnFechar = document.getElementById('btnFecharModal');
+  btnFechar.addEventListener('touchend', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    closeModal();
+  });
+  btnFechar.addEventListener('click', function(e) {
+    e.stopPropagation();
+    closeModal();
+  });
 
   updateBadge();
   renderProducts();
