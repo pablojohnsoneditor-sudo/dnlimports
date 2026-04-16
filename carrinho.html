@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrinho | Daniel Imports</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .cart-page {
+      max-width: 1280px;
+      margin: 24px auto 60px;
+      padding: 0 24px;
+    }
+
+    .cart-page-title {
+      font-size: 24px; font-weight: 700;
+      margin-bottom: 24px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .cart-page-title span { font-size: 16px; color: var(--gray-400); font-weight: 400; }
+
+    /* ── STEPS ── */
+    .checkout-steps {
+      display: flex; align-items: center;
+      margin-bottom: 32px; gap: 0;
+      overflow-x: auto; padding-bottom: 4px;
+    }
+    .step {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 13px; font-weight: 700;
+      padding: 8px 16px;
+      white-space: nowrap;
+    }
+    .step-num {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700;
+      background: var(--gray-200); color: var(--gray-600);
+      flex-shrink: 0;
+    }
+    .step.active .step-num { background: var(--accent); color: #001943; }
+    .step.active { color: var(--main-fg); }
+    .step:not(.active) { color: var(--gray-400); }
+    .step-sep { color: var(--gray-200); font-size: 20px; flex-shrink: 0; }
+
+    /* ── LAYOUT ── */
+    .cart-layout {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 28px;
+      align-items: start;
+    }
+
+    /* ── CART ITEMS ── */
+    .cart-items-box {
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .cart-items-header {
+      background: var(--gray-50);
+      padding: 14px 20px;
+      font-size: 12px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .5px;
+      display: grid;
+      grid-template-columns: 1fr 100px 100px 100px 36px;
+      gap: 12px;
+      color: var(--gray-600);
+    }
+    .cart-items-header span:not(:first-child) { text-align: center; }
+
+    .cart-item {
+      display: grid;
+      grid-template-columns: 1fr 100px 100px 100px 36px;
+      gap: 12px;
+      align-items: center;
+      padding: 16px 20px;
+      border-top: 1px solid var(--border);
+    }
+    .cart-item-product { display: flex; gap: 14px; align-items: center; }
+    .cart-item-img {
+      width: 72px; height: 72px;
+      object-fit: cover; border-radius: 6px;
+      background: var(--gray-50); flex-shrink: 0;
+    }
+    .cart-item-info {}
+    .cart-item-name { font-size: 13px; font-weight: 600; margin-bottom: 4px; line-height: 1.3; }
+    .cart-item-size { font-size: 12px; color: var(--gray-600); }
+    .cart-item-sku  { font-size: 11px; color: var(--gray-400); }
+
+    .cart-item-price { text-align: center; font-size: 14px; font-weight: 600; }
+    .cart-item-subtotal { text-align: center; font-size: 15px; font-weight: 700; }
+
+    .qty-ctrl-sm {
+      display: flex; align-items: center; justify-content: center;
+      border: 1.5px solid var(--border); border-radius: 6px;
+      overflow: hidden; width: 100px; margin: 0 auto;
+    }
+    .qty-ctrl-sm button {
+      width: 28px; height: 32px;
+      background: var(--gray-50); border: none;
+      font-size: 16px; line-height: 1;
+      transition: background .15s;
+    }
+    .qty-ctrl-sm button:hover { background: var(--gray-100); }
+    .qty-ctrl-sm input {
+      width: 44px; height: 32px;
+      border: none; border-left: 1.5px solid var(--border); border-right: 1.5px solid var(--border);
+      text-align: center; font-size: 13px; font-weight: 700;
+      outline: none;
+    }
+
+    .cart-item-remove {
+      background: none; border: none;
+      color: var(--gray-400); font-size: 18px;
+      transition: color .15s; padding: 4px;
+    }
+    .cart-item-remove:hover { color: var(--red); }
+
+    .cart-empty {
+      padding: 60px 24px;
+      text-align: center; color: var(--gray-600);
+    }
+    .cart-empty .ce-icon { font-size: 64px; margin-bottom: 16px; }
+    .cart-empty h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; color: var(--main-fg); }
+    .cart-empty p { margin-bottom: 24px; }
+
+    /* ── COUPON ── */
+    .coupon-box {
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      margin-top: 16px;
+    }
+    .coupon-box h4 { font-size: 13px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+    .coupon-form { display: flex; gap: 8px; }
+    .coupon-input {
+      flex: 1; padding: 10px 14px;
+      border: 1.5px solid var(--border); border-radius: 6px;
+      font-size: 13px; font-family: 'Sora', sans-serif;
+      outline: none; text-transform: uppercase;
+      transition: border-color .2s;
+    }
+    .coupon-input:focus { border-color: var(--accent); }
+    .coupon-btn {
+      padding: 10px 18px;
+      background: var(--header-bg); color: #fff;
+      border: none; border-radius: 6px;
+      font-size: 13px; font-weight: 700;
+      transition: background .2s; white-space: nowrap;
+    }
+    .coupon-btn:hover { background: var(--accent); color: #001943; }
+    .coupon-feedback { margin-top: 8px; font-size: 12px; font-weight: 600; }
+    .coupon-feedback.ok { color: var(--green); }
+    .coupon-feedback.err { color: var(--red); }
+
+    /* ── SIDEBAR SUMMARY ── */
+    .order-summary {
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      position: sticky;
+      top: 80px;
+    }
+    .os-header {
+      background: var(--header-bg);
+      color: #fff;
+      padding: 16px 20px;
+      font-size: 15px; font-weight: 700;
+    }
+    .os-body { padding: 20px; }
+
+    .os-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 8px 0; font-size: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .os-row:last-of-type { border-bottom: none; }
+    .os-row.discount { color: var(--green); }
+    .os-row.total {
+      font-size: 18px; font-weight: 700;
+      padding-top: 16px; margin-top: 8px;
+      border-top: 2px solid var(--border);
+    }
+
+    .os-installment {
+      background: var(--accent-light);
+      border: 1px solid var(--accent);
+      border-radius: 6px; padding: 10px 14px;
+      font-size: 13px; font-weight: 600;
+      color: var(--main-fg); margin: 16px 0;
+      text-align: center;
+    }
+
+    .btn-checkout {
+      width: 100%; padding: 16px;
+      background: var(--accent); color: #001943;
+      border: none; border-radius: var(--radius);
+      font-size: 16px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .5px;
+      transition: background .2s, transform .15s;
+      margin-bottom: 10px;
+    }
+    .btn-checkout:hover { background: var(--accent-dark); transform: translateY(-1px); }
+
+    .btn-continue {
+      width: 100%; padding: 12px;
+      background: transparent; color: var(--gray-600);
+      border: 1.5px solid var(--border); border-radius: var(--radius);
+      font-size: 14px; font-weight: 600;
+      transition: all .2s; text-decoration: none;
+      display: block; text-align: center;
+    }
+    .btn-continue:hover { border-color: var(--main-fg); color: var(--main-fg); }
+
+    .os-security {
+      margin-top: 16px;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .os-security-item {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 11px; color: var(--gray-600);
+    }
+
+    /* ── SUGGESTED ── */
+    .cart-suggested { margin-top: 40px; }
+    .suggested-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    @media (max-width: 900px) {
+      .cart-layout { grid-template-columns: 1fr; }
+      .order-summary { position: static; }
+      .cart-items-header { display: none; }
+      .cart-item {
+        grid-template-columns: 1fr auto;
+        grid-template-rows: auto auto auto;
+        gap: 8px;
+      }
+      .cart-item-product { grid-column: 1; grid-row: 1; }
+      .cart-item-qty     { grid-column: 1; grid-row: 2; justify-self: start; }
+      .cart-item-price   { display: none; }
+      .cart-item-subtotal{ grid-column: 2; grid-row: 1; align-self: start; }
+      .cart-item-remove  { grid-column: 2; grid-row: 2; }
+      .qty-ctrl-sm { margin: 0; }
+    }
+    @media (max-width: 480px) {
+      .suggested-grid { grid-template-columns: repeat(2,1fr); gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="topbar">🚚 Frete Grátis · 12x Sem Juros · Produto Original Importado</div>
+
+<header>
+  <div class="header-inner">
+    <a href="index.html" class="logo">DANIEL<span>IMPORTS</span></a>
+    <form class="search-form" onsubmit="handleSearch(event)">
+      <input type="search" id="searchInput" placeholder="Buscar camisas, times, seleções...">
+      <button type="submit">🔍</button>
+    </form>
+    <div class="header-actions">
+      <button class="btn-icon">♡</button>
+      <a href="carrinho.html" class="btn-icon" style="position:relative">
+        🛒 <span class="cart-badge" id="cartBadge">0</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-item"><a href="index.html">Home</a></div>
+    <div class="nav-item"><a href="catalogo.html">Catálogo</a></div>
+    <div class="nav-item"><a href="catalogo.html?cat=COPA DO MUNDO 2026">Copa do Mundo 2026 🔥</a></div>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="index.html">Home</a><span>›</span>
+  <span>Carrinho</span>
+</div>
+
+<div class="cart-page">
+
+  <h1 class="cart-page-title">🛒 Meu Carrinho <span id="cartItemCount"></span></h1>
+
+  <!-- STEPS -->
+  <div class="checkout-steps">
+    <div class="step active"><span class="step-num">1</span> Carrinho</div>
+    <span class="step-sep">›</span>
+    <div class="step"><span class="step-num">2</span> Identificação</div>
+    <span class="step-sep">›</span>
+    <div class="step"><span class="step-num">3</span> Entrega</div>
+    <span class="step-sep">›</span>
+    <div class="step"><span class="step-num">4</span> Pagamento</div>
+    <span class="step-sep">›</span>
+    <div class="step"><span class="step-num">5</span> Confirmação</div>
+  </div>
+
+  <div class="cart-layout" id="cartLayout">
+
+    <!-- ITEMS + COUPON -->
+    <div>
+      <div class="cart-items-box">
+        <div class="cart-items-header">
+          <span>Produto</span>
+          <span>Preço Unit.</span>
+          <span>Quantidade</span>
+          <span>Subtotal</span>
+          <span></span>
+        </div>
+        <div id="cartItemsList"></div>
+      </div>
+
+      <!-- Coupon -->
+      <div class="coupon-box">
+        <h4>🏷️ Cupom de Desconto</h4>
+        <div class="coupon-form">
+          <input type="text" class="coupon-input" id="couponInput" placeholder="Digite seu cupom">
+          <button class="coupon-btn" onclick="applyCoupon()">Aplicar</button>
+        </div>
+        <div class="coupon-feedback" id="couponFeedback"></div>
+        <div style="margin-top:8px;font-size:11px;color:var(--gray-400)">Cupons disponíveis: DNL10 (10% off) · COPA20 (20% off)</div>
+      </div>
+    </div>
+
+    <!-- ORDER SUMMARY -->
+    <div class="order-summary">
+      <div class="os-header">📋 Resumo do Pedido</div>
+      <div class="os-body">
+        <div class="os-row"><span>Subtotal</span><span id="osSubtotal">R$ 0,00</span></div>
+        <div class="os-row discount" id="osDiscountRow" style="display:none"><span id="osDiscountLabel">Desconto</span><span id="osDiscount"></span></div>
+        <div class="os-row" style="color:var(--green)"><span>🚚 Frete</span><span>Grátis</span></div>
+        <div class="os-row total"><span>Total</span><span id="osTotal">R$ 0,00</span></div>
+
+        <div class="os-installment" id="osInstallment">
+          ou 12x de R$ 0,00 sem juros
+        </div>
+
+        <button class="btn-checkout" onclick="checkout()">Finalizar Compra →</button>
+        <a href="catalogo.html" class="btn-continue">← Continuar Comprando</a>
+
+        <div class="os-security">
+          <div class="os-security-item">🔒 Pagamento 100% seguro e criptografado</div>
+          <div class="os-security-item">💳 Aceitamos: Pix, Cartão, Boleto</div>
+          <div class="os-security-item">🚚 Frete grátis para todo o Brasil</div>
+          <div class="os-security-item">🔄 Troca garantida em 30 dias</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SUGGESTED -->
+  <div class="cart-suggested" id="cartSuggested">
+    <h2 class="section-title">⚡ Aproveite e leve também</h2>
+    <div class="suggested-grid" id="suggestedGrid"></div>
+  </div>
+
+</div>
+
+<!-- PROMO STRIP -->
+<div class="promo-strip">
+  <div class="promo-strip-inner">
+    <div class="promo-item"><div class="promo-icon">🚚</div><h3>Frete Grátis</h3><p>Para todo o Brasil</p></div>
+    <div class="promo-item"><div class="promo-icon">💳</div><h3>12x sem Juros</h3><p>No cartão de crédito</p></div>
+    <div class="promo-item"><div class="promo-icon">🔒</div><h3>Compra Segura</h3><p>Dados 100% protegidos</p></div>
+    <div class="promo-item"><div class="promo-icon">🔄</div><h3>Troca Garantida</h3><p>Sem complicação</p></div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="logo">DANIEL<span>IMPORTS</span></span>
+      <p>Na Daniel Imports você encontra camisas de futebol dos principais clubes e seleções do mundo.</p>
+    </div>
+    <div class="footer-col"><h4>Categorias</h4><ul>
+      <li><a href="catalogo.html?cat=Seleções">Seleções</a></li>
+      <li><a href="catalogo.html?cat=COPA DO MUNDO 2026">Copa 2026</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Institucional</h4><ul>
+      <li><a href="#">Sobre a loja</a></li>
+      <li><a href="#">Trocas e devoluções</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Contato</h4><ul>
+      <li><a href="#">WhatsApp</a></li>
+      <li><a href="#">Instagram</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Daniel Imports · Todos os direitos reservados</span>
+  </div>
+</footer>
+
+<a href="#" class="whatsapp-btn">💬</a>
+<div class="toast" id="toast"><span class="toast-icon">✓</span><span id="toastMsg"></span></div>
+
+<script src="js/store.js"></script>
+<script>
+  let couponDiscount = 0;
+  let couponCode = '';
+
+  function handleSearch(e) {
+    e.preventDefault();
+    const q = document.getElementById('searchInput').value.trim();
+    if (q) window.location.href = `catalogo.html?q=${encodeURIComponent(q)}`;
+  }
+
+  function renderCart() {
+    const cart = Store.getCart();
+    const list = document.getElementById('cartItemsList');
+    const count = document.getElementById('cartItemCount');
+
+    count.textContent = cart.length ? `(${Store.getCartCount()} ${Store.getCartCount() === 1 ? 'item' : 'itens'})` : '';
+
+    if (!cart.length) {
+      list.innerHTML = `
+        <div class="cart-empty">
+          <div class="ce-icon">🛒</div>
+          <h3>Seu carrinho está vazio</h3>
+          <p>Adicione produtos ao carrinho para continuar comprando.</p>
+          <a href="catalogo.html" class="btn-primary">Explorar Catálogo</a>
+        </div>`;
+      document.getElementById('cartSuggested').style.display = 'block';
+      updateSummary(0);
+      return;
+    }
+
+    list.innerHTML = cart.map(item => `
+      <div class="cart-item" id="item-${item.key}">
+        <div class="cart-item-product">
+          <img class="cart-item-img" src="${item.img}" alt="${item.name}">
+          <div class="cart-item-info">
+            <div class="cart-item-name">${item.name}</div>
+            <div class="cart-item-size">Tamanho: <strong>${item.size}</strong></div>
+            <div class="cart-item-sku">Ref: DNL-${item.productId.toString().padStart(4,'0')}</div>
+          </div>
+        </div>
+        <div class="cart-item-price">R$ ${Store.fmt(item.price)}</div>
+        <div class="cart-item-qty">
+          <div class="qty-ctrl-sm">
+            <button onclick="updateQty('${item.key}', ${item.qty - 1})">−</button>
+            <input type="number" value="${item.qty}" min="1" max="10"
+              onchange="updateQty('${item.key}', parseInt(this.value))">
+            <button onclick="updateQty('${item.key}', ${item.qty + 1})">+</button>
+          </div>
+        </div>
+        <div class="cart-item-subtotal">R$ ${Store.fmt(item.price * item.qty)}</div>
+        <button class="cart-item-remove" onclick="removeItem('${item.key}')" title="Remover">🗑</button>
+      </div>
+    `).join('');
+
+    updateSummary(Store.getCartTotal());
+  }
+
+  function updateQty(key, qty) {
+    if (qty < 1) { removeItem(key); return; }
+    Store.updateQty(key, Math.min(qty, 10));
+    renderCart();
+  }
+
+  function removeItem(key) {
+    Store.removeFromCart(key);
+    Store.updateBadge();
+    renderCart();
+    Store.toast('Produto removido do carrinho.');
+  }
+
+  function applyCoupon() {
+    const code = document.getElementById('couponInput').value.trim();
+    const fb = document.getElementById('couponFeedback');
+    if (!code) { fb.className = 'coupon-feedback err'; fb.textContent = 'Digite um cupom válido.'; return; }
+
+    const disc = Store.applyCoupon(code);
+    if (disc === null) {
+      fb.className = 'coupon-feedback err';
+      fb.textContent = '❌ Cupom inválido ou expirado.';
+      couponDiscount = 0; couponCode = '';
+    } else {
+      couponDiscount = disc;
+      couponCode = code.toUpperCase();
+      fb.className = 'coupon-feedback ok';
+      fb.textContent = disc > 0 ? `✓ Cupom "${couponCode}" aplicado! ${disc}% de desconto.` : `✓ Frete grátis aplicado!`;
+    }
+    updateSummary(Store.getCartTotal());
+  }
+
+  function updateSummary(subtotal) {
+    const discountVal = couponDiscount > 0 ? subtotal * (couponDiscount / 100) : 0;
+    const total = subtotal - discountVal;
+
+    document.getElementById('osSubtotal').textContent  = `R$ ${Store.fmt(subtotal)}`;
+    document.getElementById('osTotal').textContent     = `R$ ${Store.fmt(total)}`;
+    document.getElementById('osInstallment').textContent = `ou 12x de R$ ${Store.fmt(total / 12)} sem juros`;
+
+    const discRow = document.getElementById('osDiscountRow');
+    if (discountVal > 0) {
+      discRow.style.display = 'flex';
+      document.getElementById('osDiscountLabel').textContent = `Cupom ${couponCode} (-${couponDiscount}%)`;
+      document.getElementById('osDiscount').textContent = `- R$ ${Store.fmt(discountVal)}`;
+    } else {
+      discRow.style.display = 'none';
+    }
+  }
+
+  function checkout() {
+    if (!Store.getCartCount()) { Store.toast('Adicione produtos ao carrinho!'); return; }
+    Store.toast('Redirecionando para o pagamento...');
+    setTimeout(() => alert('Integração com gateway de pagamento. Configure o WhatsApp ou plataforma de checkout (Mercado Pago, PagSeguro, etc.) aqui.'), 1500);
+  }
+
+  // Suggested products
+  function renderSuggested() {
+    const cart = Store.getCart();
+    const cartIds = cart.map(i => i.productId);
+    const suggestions = Store.PRODUCTS
+      .filter(p => !cartIds.includes(p.id))
+      .sort((a,b) => b.reviews - a.reviews)
+      .slice(0, 4);
+    document.getElementById('suggestedGrid').innerHTML = suggestions.map(p => Store.renderCard(p)).join('');
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    Store.updateBadge();
+    renderCart();
+    renderSuggested();
+  });
+</script>
+</body>
+</html>
