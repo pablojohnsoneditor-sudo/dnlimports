@@ -484,6 +484,7 @@
 
     .modal-header-bar { display: none; }
 
+    /* Botão fechar — desktop: canto superior direito */
     .modal-close {
       position: absolute;
       top: 12px; right: 12px;
@@ -502,7 +503,24 @@
     }
     .modal-close:hover { background: var(--gray-100); transform: scale(1.1); }
 
-    /* Indicador de arrasto (mobile) */
+    /* Botão fechar mobile — dentro do fluxo, sempre visível */
+    .modal-close-mobile {
+      display: none;
+      width: 100%;
+      padding: 12px;
+      background: var(--gray-100);
+      border: none;
+      border-top: 1px solid var(--border);
+      font-family: 'Sora', sans-serif;
+      font-size: 14px; font-weight: 700;
+      color: var(--blue);
+      cursor: pointer;
+      text-align: center;
+      border-radius: 0 0 20px 20px;
+      grid-column: 1 / -1;
+    }
+
+    /* Indicador de arrasto */
     .modal-drag-handle {
       display: none;
       width: 40px; height: 4px;
@@ -718,6 +736,8 @@
       }
       .modal-drag-handle { display: block; }
       .modal-gallery { border-radius: 0; }
+      .modal-close { display: none; }
+      .modal-close-mobile { display: block; }
       .modal-gallery-main { min-height: 260px; max-height: 300px; }
       .modal-info { padding: 16px; gap: 10px; }
       .modal-name { font-size: 16px; }
@@ -871,6 +891,7 @@
         <span class="modal-trust-item">⚡ Resposta rápida</span>
       </div>
     </div>
+    <button class="modal-close-mobile" onclick="closeModal()">✕ Fechar</button>
   </div>
 </div>
 
