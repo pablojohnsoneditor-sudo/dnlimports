@@ -3,384 +3,776 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Daniel Imports | Camisas de Futebol Importadas</title>
-  <meta name="description" content="Camisas de futebol dos principais clubes e seleções do mundo. Frete Grátis e Parcelamento em até 12x.">
+  <title>DNL Imports | Camisas de Futebol</title>
+  <meta name="description" content="Camisas de futebol importadas com o melhor preço. Faça seu pedido pelo WhatsApp!">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
   <style>
-    /* ── HERO BANNER ── */
-    .hero {
-      background: linear-gradient(135deg, #001943 0%, #003080 60%, #001943 100%);
-      min-height: 420px;
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:        #005c2e;
+      --green-light:  #009c3b;
+      --yellow:       #FECF10;
+      --yellow-dark:  #e6b800;
+      --blue:         #002776;
+      --white:        #ffffff;
+      --gray-50:      #f8f9fa;
+      --gray-100:     #f0f0f0;
+      --gray-200:     #e0e0e0;
+      --gray-400:     #aaaaaa;
+      --gray-600:     #555555;
+      --border:       #e8e8e8;
+      --radius:       10px;
+      --shadow:       0 4px 20px rgba(0,0,0,.10);
+      --shadow-lg:    0 8px 32px rgba(0,0,0,.16);
+      --whatsapp:     #25D366;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Sora', sans-serif; background: var(--gray-50); color: var(--blue); }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      background: var(--yellow);
+      color: var(--blue);
+      text-align: center;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 8px 16px;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--green);
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      box-shadow: 0 2px 12px rgba(0,0,0,.3);
+    }
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 10px 24px;
       display: flex;
       align-items: center;
+      gap: 20px;
+    }
+    .logo img { height: 52px; width: auto; }
+
+    .search-form {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      background: rgba(255,255,255,.12);
+      border-radius: 24px;
+      border: 1.5px solid rgba(255,255,255,.25);
+      overflow: hidden;
+      transition: border-color .2s;
+    }
+    .search-form:focus-within { border-color: var(--yellow); }
+    .search-form input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      padding: 9px 16px;
+      color: #fff;
+      font-family: 'Sora', sans-serif;
+      font-size: 14px;
+      outline: none;
+    }
+    .search-form input::placeholder { color: rgba(255,255,255,.6); }
+    .search-form button {
+      background: var(--yellow);
+      border: none;
+      padding: 9px 16px;
+      color: var(--blue);
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .header-cart {
+      background: var(--yellow);
+      border: none;
+      color: var(--blue);
+      font-family: 'Sora', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 9px 18px;
+      border-radius: 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+      transition: background .2s;
+    }
+    .header-cart:hover { background: var(--yellow-dark); }
+    .cart-badge {
+      background: var(--blue);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, var(--blue) 0%, var(--green) 100%);
+      padding: 48px 24px;
+      text-align: center;
+      color: #fff;
       position: relative;
       overflow: hidden;
     }
     .hero::before {
       content: '';
       position: absolute;
-      width: 700px; height: 700px;
-      background: radial-gradient(circle, rgba(0,209,247,.12) 0%, transparent 70%);
-      right: -100px; top: 50%;
-      transform: translateY(-50%);
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(254,207,16,.15) 0%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
     }
-    .hero-inner {
-      max-width: 1280px; margin: 0 auto;
-      padding: 60px 24px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
-      align-items: center;
-      position: relative;
-      z-index: 1;
-    }
+    .hero-content { position: relative; z-index: 1; max-width: 600px; margin: 0 auto; }
     .hero-tag {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(0,209,247,.15);
-      border: 1px solid rgba(0,209,247,.3);
-      color: var(--accent);
-      font-size: 12px; font-weight: 700;
+      display: inline-block;
+      background: var(--yellow);
+      color: var(--blue);
+      font-size: 11px; font-weight: 700;
       letter-spacing: 1px; text-transform: uppercase;
-      padding: 6px 14px; border-radius: 20px;
-      margin-bottom: 20px;
+      padding: 5px 16px; border-radius: 20px;
+      margin-bottom: 16px;
     }
-    .hero h1 {
-      font-size: clamp(28px, 4vw, 50px);
-      font-weight: 700; line-height: 1.15;
-      color: #fff; margin-bottom: 16px;
+    .hero h1 { font-size: clamp(24px, 4vw, 40px); font-weight: 700; line-height: 1.2; margin-bottom: 12px; }
+    .hero h1 span { color: var(--yellow); }
+    .hero p { font-size: 15px; color: rgba(255,255,255,.85); margin-bottom: 24px; }
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--whatsapp);
+      color: #fff;
+      font-weight: 700;
+      font-size: 15px;
+      padding: 13px 28px;
+      border-radius: 30px;
+      transition: transform .15s, box-shadow .15s;
+      box-shadow: 0 4px 16px rgba(37,211,102,.4);
     }
-    .hero h1 span { color: var(--accent); }
-    .hero p { font-size: 16px; color: #aac4dd; margin-bottom: 28px; line-height: 1.7; }
-    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
-    .hero-img {
-      display: flex; align-items: center; justify-content: center;
-    }
-    .hero-img-placeholder {
-      width: 340px; height: 340px;
-      background: rgba(255,255,255,.05);
-      border: 2px dashed rgba(0,209,247,.3);
-      border-radius: 50%;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      color: rgba(255,255,255,.4);
-      font-size: 80px;
-    }
-    .hero-img-placeholder span { font-size: 14px; margin-top: 8px; }
+    .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(37,211,102,.5); }
 
     /* ── TRUST BAR ── */
     .trust-bar {
-      background: var(--gray-50);
+      background: var(--white);
       border-bottom: 1px solid var(--border);
-      padding: 14px 24px;
+      padding: 12px 24px;
     }
-    .trust-bar-inner {
-      max-width: 1280px; margin: 0 auto;
-      display: flex; gap: 32px;
+    .trust-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; gap: 24px;
       align-items: center; justify-content: center;
       flex-wrap: wrap;
     }
-    .trust-item {
-      display: flex; align-items: center; gap: 8px;
-      font-size: 12px; font-weight: 700; color: var(--main-fg);
-    }
-    .trust-item .ti { font-size: 18px; }
+    .trust-item { display: flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 700; color: var(--blue); }
 
-    /* ── CATEGORIES ── */
-    .cats { max-width: 1280px; margin: 40px auto 0; padding: 0 24px; }
-    .cats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-      gap: 12px;
+    /* ── FILTROS ── */
+    .filters-section {
+      max-width: 1200px;
+      margin: 32px auto 0;
+      padding: 0 24px;
     }
-    .cat-card {
-      background: var(--header-bg); color: #fff;
-      border-radius: var(--radius);
-      padding: 20px 12px; text-align: center;
-      font-size: 12px; font-weight: 700;
-      text-transform: uppercase; letter-spacing: .4px;
-      transition: background .2s, transform .15s;
+    .filters-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      padding: 8px 18px;
+      border-radius: 24px;
+      border: 2px solid var(--border);
+      background: var(--white);
+      font-family: 'Sora', sans-serif;
+      font-size: 13px; font-weight: 600;
+      color: var(--blue);
       cursor: pointer;
+      transition: all .2s;
+      white-space: nowrap;
     }
-    .cat-card:hover { background: #2e2e31; transform: translateY(-2px); }
-    .cat-card .ci { font-size: 26px; display: block; margin-bottom: 8px; }
-    .cat-card a { color: inherit; }
+    .filter-btn:hover { border-color: var(--green); color: var(--green); }
+    .filter-btn.active { background: var(--green); border-color: var(--green); color: #fff; }
+    .results-info { margin-left: auto; font-size: 13px; color: var(--gray-600); }
 
-    /* ── FEATURED ── */
-    .featured { max-width: 1280px; margin: 48px auto 0; padding: 0 24px; }
-
+    /* ── PRODUTOS ── */
+    .products-section {
+      max-width: 1200px;
+      margin: 20px auto 60px;
+      padding: 0 24px;
+    }
     .products-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
       gap: 20px;
     }
 
-    /* ── BANNER MEIO ── */
-    .mid-banner {
-      background: linear-gradient(90deg, #001943 0%, #003494 100%);
-      margin: 48px 0 0;
-      padding: 48px 24px;
-      text-align: center;
-      color: #fff;
-    }
-    .mid-banner-inner { max-width: 700px; margin: 0 auto; }
-    .mid-banner h2 { font-size: clamp(22px, 3vw, 34px); font-weight: 700; margin-bottom: 12px; }
-    .mid-banner h2 span { color: var(--accent); }
-    .mid-banner p { color: #aac4dd; margin-bottom: 24px; font-size: 15px; }
-
-    /* ── SOCIAL PROOF ── */
-    .social-proof { max-width: 1280px; margin: 48px auto 0; padding: 0 24px; }
-    .reviews-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 20px;
-    }
-    .review-card {
-      border: 1.5px solid var(--border);
+    /* ── CARD ── */
+    .product-card {
+      background: var(--white);
       border-radius: var(--radius);
-      padding: 20px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform .2s, box-shadow .2s;
+      display: flex;
+      flex-direction: column;
     }
-    .review-stars { color: var(--yellow); font-size: 14px; margin-bottom: 8px; }
-    .review-text { font-size: 13px; color: #444; line-height: 1.6; margin-bottom: 12px; font-style: italic; }
-    .review-author { font-size: 12px; font-weight: 700; color: var(--gray-600); display: flex; align-items: center; gap: 8px; }
-    .review-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--accent-light); display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--main-fg); font-size: 13px; }
+    .product-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
 
-    @media (max-width: 768px) {
-      .hero-inner { grid-template-columns: 1fr; }
-      .hero-img { display: none; }
+    .card-gallery { position: relative; background: var(--gray-50); }
+    .card-gallery-main { aspect-ratio: 1; overflow: hidden; cursor: pointer; }
+    .card-gallery-main img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform .3s;
     }
-    @media (max-width: 480px) {
+    .product-card:hover .card-gallery-main img { transform: scale(1.06); }
+
+    .card-thumbs {
+      display: flex;
+      gap: 4px;
+      padding: 6px 8px;
+      overflow-x: auto;
+    }
+    .card-thumb {
+      width: 44px; height: 44px;
+      border-radius: 5px;
+      overflow: hidden;
+      border: 2px solid transparent;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: border-color .15s;
+    }
+    .card-thumb.active { border-color: var(--green); }
+    .card-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+    .card-badge {
+      position: absolute;
+      top: 10px; left: 10px;
+      background: var(--yellow);
+      color: var(--blue);
+      font-size: 10px; font-weight: 700;
+      padding: 4px 10px; border-radius: 10px;
+    }
+    .card-badge.new { background: var(--green-light); color: #fff; }
+
+    .card-info { padding: 14px; flex: 1; display: flex; flex-direction: column; }
+    .card-club { font-size: 10px; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px; }
+    .card-name { font-size: 14px; font-weight: 700; color: var(--blue); margin-bottom: 10px; line-height: 1.35; }
+
+    .card-price-block { margin-bottom: 10px; }
+    .card-price-old { font-size: 12px; color: var(--gray-400); text-decoration: line-through; }
+    .card-price { font-size: 24px; font-weight: 700; color: var(--green); line-height: 1.1; }
+    .card-price-tag { font-size: 11px; color: var(--gray-600); }
+
+    .card-sizes { margin-bottom: 12px; }
+    .card-sizes-label { font-size: 11px; font-weight: 700; color: var(--gray-600); text-transform: uppercase; margin-bottom: 6px; }
+    .sizes-row { display: flex; gap: 6px; flex-wrap: wrap; }
+    .size-chip {
+      padding: 4px 12px;
+      border: 2px solid var(--border);
+      border-radius: 6px;
+      font-size: 12px; font-weight: 700;
+      cursor: pointer;
+      transition: all .15s;
+      background: var(--white);
+      color: var(--blue);
+      font-family: 'Sora', sans-serif;
+    }
+    .size-chip:hover { border-color: var(--green); color: var(--green); }
+    .size-chip.selected { background: var(--green); border-color: var(--green); color: #fff; }
+
+    .card-actions { display: flex; flex-direction: column; gap: 8px; margin-top: auto; }
+    .btn-whatsapp {
+      width: 100%;
+      background: var(--whatsapp);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 11px;
+      font-family: 'Sora', sans-serif;
+      font-size: 13px; font-weight: 700;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: background .2s, transform .15s;
+    }
+    .btn-whatsapp:hover { background: #1fb855; transform: translateY(-1px); }
+    .btn-cart {
+      width: 100%;
+      background: transparent;
+      color: var(--blue);
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      padding: 9px;
+      font-family: 'Sora', sans-serif;
+      font-size: 13px; font-weight: 700;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .btn-cart:hover { border-color: var(--blue); background: var(--blue); color: #fff; }
+
+    /* ── CARRINHO LATERAL ── */
+    .cart-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.5);
+      z-index: 400;
+    }
+    .cart-overlay.open { display: block; }
+    .cart-drawer {
+      position: fixed;
+      top: 0; right: 0;
+      width: 400px; max-width: 100%;
+      height: 100vh;
+      background: #fff;
+      z-index: 500;
+      display: flex; flex-direction: column;
+      box-shadow: -8px 0 32px rgba(0,0,0,.2);
+      transform: translateX(100%);
+      transition: transform .3s;
+    }
+    .cart-overlay.open .cart-drawer { transform: translateX(0); }
+    .cart-header {
+      background: var(--green);
+      color: #fff;
+      padding: 16px 20px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .cart-header h2 { font-size: 16px; font-weight: 700; }
+    .cart-close { background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; }
+    .cart-body { flex: 1; overflow-y: auto; padding: 16px; }
+    .cart-empty-msg { text-align: center; padding: 40px 0; color: var(--gray-400); }
+    .cart-empty-msg .ce-icon { font-size: 48px; margin-bottom: 12px; }
+    .cart-item {
+      display: flex; gap: 12px;
+      border-bottom: 1px solid var(--border);
+      padding: 12px 0;
+    }
+    .cart-item-img { width: 64px; height: 64px; object-fit: cover; border-radius: 6px; background: var(--gray-50); flex-shrink: 0; }
+    .cart-item-info { flex: 1; }
+    .cart-item-name { font-size: 13px; font-weight: 600; margin-bottom: 2px; line-height: 1.3; }
+    .cart-item-size { font-size: 12px; color: var(--gray-600); margin-bottom: 4px; }
+    .cart-item-price { font-size: 14px; font-weight: 700; color: var(--green); }
+    .cart-item-remove { background: none; border: none; color: var(--gray-400); font-size: 18px; cursor: pointer; align-self: flex-start; }
+    .cart-item-remove:hover { color: red; }
+    .cart-footer { padding: 16px; border-top: 2px solid var(--border); }
+    .cart-total { display: flex; justify-content: space-between; font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+    .cart-total span:last-child { color: var(--green); }
+    .btn-send-whatsapp {
+      width: 100%;
+      background: var(--whatsapp);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 14px;
+      font-family: 'Sora', sans-serif;
+      font-size: 15px; font-weight: 700;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      transition: background .2s;
+      margin-bottom: 8px;
+    }
+    .btn-send-whatsapp:hover { background: #1fb855; }
+    .btn-clear-cart {
+      width: 100%;
+      background: transparent;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 10px;
+      font-family: 'Sora', sans-serif;
+      font-size: 13px; font-weight: 600; color: var(--gray-600);
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .btn-clear-cart:hover { border-color: red; color: red; }
+
+    /* ── WHATSAPP FLOAT ── */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 24px; right: 24px;
+      background: var(--whatsapp);
+      color: #fff;
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px;
+      box-shadow: 0 4px 16px rgba(37,211,102,.5);
+      z-index: 300;
+      transition: transform .2s;
+    }
+    .whatsapp-float:hover { transform: scale(1.1); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--green);
+      color: rgba(255,255,255,.8);
+      padding: 32px 24px;
+      text-align: center;
+    }
+    footer img { height: 48px; margin: 0 auto 16px; }
+    footer p { font-size: 13px; line-height: 1.7; }
+    .footer-links { display: flex; justify-content: center; gap: 20px; margin-top: 16px; flex-wrap: wrap; }
+    .footer-links a { font-size: 13px; color: rgba(255,255,255,.7); transition: color .2s; }
+    .footer-links a:hover { color: var(--yellow); }
+    .footer-bottom { margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,.15); font-size: 12px; color: rgba(255,255,255,.5); }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 90px; right: 24px;
+      background: var(--blue);
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: 8px;
+      font-size: 13px; font-weight: 600;
+      z-index: 1000;
+      display: flex; align-items: center; gap: 8px;
+      box-shadow: var(--shadow-lg);
+      transform: translateY(80px); opacity: 0;
+      transition: transform .3s, opacity .3s;
+      max-width: 320px;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast-icon { color: var(--yellow); font-size: 16px; }
+
+    .no-results { grid-column: 1/-1; text-align: center; padding: 60px 0; color: var(--gray-600); }
+    .no-results .nr-icon { font-size: 56px; margin-bottom: 12px; }
+
+    @media (max-width: 640px) {
+      .header-inner { flex-wrap: wrap; }
+      .logo { order: 1; }
+      .header-cart { order: 2; margin-left: auto; }
+      .search-form { order: 3; width: 100%; }
       .products-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .card-info { padding: 10px; }
+      .card-price { font-size: 20px; }
     }
   </style>
 </head>
 <body>
 
-<div class="topbar">🚚 Frete Grátis para todo o Brasil · Parcele em até 12x sem juros · Produto Importado Original</div>
+<div class="topbar">⚽ Peça pelo WhatsApp e receba em casa · Produto importado original</div>
 
 <header>
   <div class="header-inner">
-    <a href="index.html" class="logo">DANIEL<span>IMPORTS</span></a>
-    <form class="search-form" onsubmit="handleSearch(event)">
-      <input type="search" id="searchInput" placeholder="Buscar camisas, times, seleções...">
-      <button type="submit">🔍</button>
-    </form>
-    <div class="header-actions">
-      <button class="btn-icon" title="Favoritos">♡</button>
-      <a href="carrinho.html" class="btn-icon" title="Carrinho" style="position:relative">
-        🛒 <span class="cart-badge" id="cartBadge">0</span>
-      </a>
+    <a href="index.html" class="logo">
+      <img src="images/logo-branca.png" alt="DNL Imports">
+    </a>
+    <div class="search-form">
+      <input type="search" id="searchInput" placeholder="Buscar camisa, clube, seleção..." oninput="filterProducts()">
+      <button type="button">🔍</button>
     </div>
+    <button class="header-cart" onclick="openCart()">
+      🛒 Carrinho
+      <span class="cart-badge" id="cartBadge">0</span>
+    </button>
   </div>
 </header>
 
-<nav>
-  <div class="nav-inner">
-    <div class="nav-item"><a href="index.html" class="active">Home</a></div>
-    <div class="nav-item">
-      <a href="catalogo.html">Seleções ▾</a>
-      <div class="dropdown">
-        <a href="catalogo.html?cat=Seleções">Todas as Seleções</a>
-        <a href="catalogo.html?cat=Brasil">Brasil</a>
-        <a href="catalogo.html?cat=Argentina">Argentina</a>
-        <a href="catalogo.html?cat=Portugal">Portugal</a>
-      </div>
-    </div>
-    <div class="nav-item">
-      <a href="catalogo.html">Clubes ▾</a>
-      <div class="dropdown">
-        <a href="catalogo.html?cat=Clubes">Todos os Clubes</a>
-        <a href="catalogo.html?cat=Real Madrid">Real Madrid</a>
-        <a href="catalogo.html?cat=Barcelona">Barcelona</a>
-        <a href="catalogo.html?cat=Manchester City">Manchester City</a>
-      </div>
-    </div>
-    <div class="nav-item"><a href="catalogo.html?cat=COPA DO MUNDO 2026">Copa do Mundo 2026 🔥</a></div>
-    <div class="nav-item"><a href="catalogo.html?cat=Infantil">Infantil</a></div>
-    <div class="nav-item"><a href="catalogo.html?cat=Feminino">Feminino</a></div>
-    <div class="nav-item"><a href="catalogo.html">Todos os Produtos</a></div>
-  </div>
-</nav>
-
-<!-- HERO -->
 <section class="hero">
-  <div class="hero-inner">
-    <div class="hero-text">
-      <div class="hero-tag">⚽ Copa do Mundo 2026</div>
-      <h1>Camisas Oficiais<br>dos Melhores<br><span>Times do Mundo</span></h1>
-      <p>Produto importado original. Frete Grátis para todo o Brasil, parcelamento em até 12x sem juros.</p>
-      <div class="hero-actions">
-        <a href="catalogo.html" class="btn-primary">Ver Catálogo Completo</a>
-        <a href="catalogo.html?cat=COPA DO MUNDO 2026" class="btn-secondary" style="color:#fff;border-color:rgba(255,255,255,.3)">Copa 2026</a>
-      </div>
-    </div>
-    <div class="hero-img">
-      <div class="hero-img-placeholder">
-        ⚽
-        <span>Sua Camisa Aqui</span>
-      </div>
-    </div>
+  <div class="hero-content">
+    <div class="hero-tag">⚽ Camisas Importadas Originais</div>
+    <h1>As melhores camisas<br>pelo <span>melhor preço</span></h1>
+    <p>Escolha sua camisa favorita e faça seu pedido direto no WhatsApp. Simples, rápido e seguro!</p>
+    <a href="#" class="hero-cta" onclick="openWhatsApp('Olá! Vim pelo catálogo DNL Imports e gostaria de saber mais sobre as camisas.'); return false;">
+      💬 Falar no WhatsApp
+    </a>
   </div>
 </section>
 
-<!-- TRUST BAR -->
 <div class="trust-bar">
-  <div class="trust-bar-inner">
-    <div class="trust-item"><span class="ti">🚚</span> Frete Grátis</div>
-    <div class="trust-item"><span class="ti">💳</span> 12x Sem Juros</div>
-    <div class="trust-item"><span class="ti">🔒</span> Compra 100% Segura</div>
-    <div class="trust-item"><span class="ti">🔄</span> Troca Garantida</div>
-    <div class="trust-item"><span class="ti">✅</span> Produto Original Importado</div>
-    <div class="trust-item"><span class="ti">📦</span> Entrega em Todo o Brasil</div>
+  <div class="trust-inner">
+    <div class="trust-item">✅ Produto Original Importado</div>
+    <div class="trust-item">💬 Pedido via WhatsApp</div>
+    <div class="trust-item">🔒 Compra Segura</div>
+    <div class="trust-item">⚡ Atendimento Rápido</div>
   </div>
 </div>
 
-<!-- CATEGORIES -->
-<section class="cats">
-  <h2 class="section-title">Comprar por Categoria</h2>
-  <div class="cats-grid">
-    <div class="cat-card"><a href="catalogo.html"><span class="ci">🌐</span>Tudo</a></div>
-    <div class="cat-card"><a href="catalogo.html?cat=COPA DO MUNDO 2026"><span class="ci">🏆</span>Copa 2026</a></div>
-    <div class="cat-card"><a href="catalogo.html?cat=Seleções"><span class="ci">🇧🇷</span>Seleções</a></div>
-    <div class="cat-card"><a href="catalogo.html?cat=Clubes"><span class="ci">⚽</span>Clubes</a></div>
-    <div class="cat-card"><a href="catalogo.html?cat=Nike"><span class="ci">✔</span>Nike</a></div>
-    <div class="cat-card"><a href="catalogo.html?cat=Adidas"><span class="ci">〰</span>Adidas</a></div>
-    <div class="cat-card"><a href="catalogo.html?cat=Infantil"><span class="ci">👦</span>Infantil</a></div>
-    <div class="cat-card"><a href="catalogo.html?cat=Feminino"><span class="ci">👩</span>Feminino</a></div>
-  </div>
-</section>
-
-<!-- FEATURED PRODUCTS -->
-<section class="featured">
-  <h2 class="section-title">🔥 Mais Vendidos</h2>
-  <div class="products-grid" id="featuredGrid"></div>
-  <div style="text-align:center;margin-top:32px">
-    <a href="catalogo.html" class="btn-dark">Ver Todos os Produtos →</a>
-  </div>
-</section>
-
-<!-- MID BANNER -->
-<div class="mid-banner">
-  <div class="mid-banner-inner">
-    <h2>Coleção <span>Copa do Mundo 2026</span><br>já disponível!</h2>
-    <p>Vista a camisa do Brasil para a Copa. Modelos oficiais Nike com tecnologia de alto desempenho.</p>
-    <a href="catalogo.html?cat=COPA DO MUNDO 2026" class="btn-primary">Ver Coleção Copa 2026</a>
+<div class="filters-section">
+  <div class="filters-row">
+    <button class="filter-btn active" onclick="setFilter('todos', this)">🌐 Todos</button>
+    <button class="filter-btn" onclick="setFilter('brasil', this)">🇧🇷 Brasil</button>
+    <button class="filter-btn" onclick="setFilter('flamengo', this)">🔴 Flamengo</button>
+    <button class="filter-btn" onclick="setFilter('palmeiras', this)">💚 Palmeiras</button>
+    <button class="filter-btn" onclick="setFilter('liverpool', this)">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Liverpool</button>
+    <button class="filter-btn" onclick="setFilter('alemanha', this)">🇩🇪 Alemanha</button>
+    <button class="filter-btn" onclick="setFilter('alnassr', this)">⭐ Al Nassr</button>
+    <span class="results-info" id="resultsInfo"></span>
   </div>
 </div>
 
-<!-- PRODUTOS NOVIDADES -->
-<section class="featured" style="margin-top:48px">
-  <h2 class="section-title">✨ Novidades</h2>
-  <div class="products-grid" id="novosGrid"></div>
+<section class="products-section">
+  <div class="products-grid" id="productsGrid"></div>
 </section>
-
-<!-- SOCIAL PROOF -->
-<section class="social-proof" style="margin-bottom:48px">
-  <h2 class="section-title">⭐ O que nossos clientes dizem</h2>
-  <div class="reviews-grid">
-    <div class="review-card">
-      <div class="review-stars">★★★★★</div>
-      <p class="review-text">"Produto chegou rapidíssimo e é exatamente igual ao da loja oficial. Qualidade impecável, tecido diferenciado. Já é a terceira camisa que compro aqui!"</p>
-      <div class="review-author"><div class="review-avatar">MR</div> Marcos R. — São Paulo, SP</div>
-    </div>
-    <div class="review-card">
-      <div class="review-stars">★★★★★</div>
-      <p class="review-text">"Comprei o kit infantil para o meu filho e ele amou! Entrega super rápida, embalagem ótima. Produto original e com preço justo. Recomendo demais!"</p>
-      <div class="review-author"><div class="review-avatar">AF</div> Ana F. — Rio de Janeiro, RJ</div>
-    </div>
-    <div class="review-card">
-      <div class="review-stars">★★★★★</div>
-      <p class="review-text">"A camisa do Brasil chegou em 3 dias! Frete grátis de verdade. Tecido de altíssima qualidade, costura perfeita. Melhor loja de camisas importadas que já comprei."</p>
-      <div class="review-author"><div class="review-avatar">JP</div> João P. — Belo Horizonte, MG</div>
-    </div>
-    <div class="review-card">
-      <div class="review-stars">★★★★☆</div>
-      <p class="review-text">"Atendimento excelente pelo WhatsApp, me ajudaram a escolher o tamanho certo. A camisa chegou bem embalada e é muito bonita. Com certeza voltarei a comprar!"</p>
-      <div class="review-author"><div class="review-avatar">CS</div> Carla S. — Curitiba, PR</div>
-    </div>
-  </div>
-</section>
-
-<!-- PROMO STRIP -->
-<div class="promo-strip">
-  <div class="promo-strip-inner">
-    <div class="promo-item"><div class="promo-icon">🚚</div><h3>Frete Grátis</h3><p>Para todo o Brasil sem valor mínimo</p></div>
-    <div class="promo-item"><div class="promo-icon">💳</div><h3>12x sem Juros</h3><p>Parcele no cartão sem acréscimo</p></div>
-    <div class="promo-item"><div class="promo-icon">🔄</div><h3>Troca Garantida</h3><p>Produto com defeito? A gente resolve</p></div>
-    <div class="promo-item"><div class="promo-icon">🔒</div><h3>Compra Segura</h3><p>Seus dados 100% protegidos</p></div>
-    <div class="promo-item"><div class="promo-icon">📞</div><h3>Suporte via WhatsApp</h3><p>Atendimento rápido e humanizado</p></div>
-  </div>
-</div>
 
 <footer>
-  <div class="footer-inner">
-    <div class="footer-brand">
-      <span class="logo">DANIEL<span>IMPORTS</span></span>
-      <p>Na Daniel Imports você encontra camisas de futebol e artigos esportivos dos principais clubes e seleções do mundo. Produto importado com qualidade garantida.</p>
-    </div>
-    <div class="footer-col">
-      <h4>Institucional</h4>
-      <ul>
-        <li><a href="#">Sobre a loja</a></li>
-        <li><a href="#">Perguntas frequentes</a></li>
-        <li><a href="#">Trocas e devoluções</a></li>
-        <li><a href="#">Como cuidar da camisa</a></li>
-        <li><a href="#">Política de privacidade</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Categorias</h4>
-      <ul>
-        <li><a href="catalogo.html?cat=Seleções">Seleções</a></li>
-        <li><a href="catalogo.html?cat=Clubes">Clubes</a></li>
-        <li><a href="catalogo.html?cat=COPA DO MUNDO 2026">Copa do Mundo 2026</a></li>
-        <li><a href="catalogo.html?cat=Infantil">Infantil</a></li>
-        <li><a href="catalogo.html?cat=Feminino">Feminino</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Atendimento</h4>
-      <ul>
-        <li><a href="#">WhatsApp</a></li>
-        <li><a href="#">Instagram</a></li>
-        <li><a href="#">E-mail</a></li>
-        <li><a href="#">Rastrear pedido</a></li>
-      </ul>
-    </div>
+  <img src="images/logo-branca.png" alt="DNL Imports">
+  <p>Camisas de futebol importadas originais.<br>Faça seu pedido pelo WhatsApp!</p>
+  <div class="footer-links">
+    <a href="#" onclick="openWhatsApp('Olá! Gostaria de fazer um pedido.'); return false;">WhatsApp</a>
+    <a href="#">Instagram</a>
+    <a href="#">Trocas e Devoluções</a>
   </div>
-  <div class="footer-bottom">
-    <span>© 2026 Daniel Imports · Todos os direitos reservados</span>
-    <span>CNPJ: 00.000.000/0001-00</span>
-  </div>
+  <div class="footer-bottom">© 2026 DNL Imports · danielimports.shop</div>
 </footer>
 
-<!-- WhatsApp Float -->
-<a href="#" class="whatsapp-btn" title="Fale conosco no WhatsApp">💬</a>
+<!-- CARRINHO LATERAL -->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCartOnOverlay(event)">
+  <div class="cart-drawer">
+    <div class="cart-header">
+      <h2>🛒 Seu Pedido</h2>
+      <button class="cart-close" onclick="closeCart()">×</button>
+    </div>
+    <div class="cart-body" id="cartBody"></div>
+    <div class="cart-footer" id="cartFooter" style="display:none">
+      <div class="cart-total">
+        <span>Total:</span>
+        <span id="cartTotal">R$ 0,00</span>
+      </div>
+      <button class="btn-send-whatsapp" onclick="sendCartToWhatsApp()">
+        💬 Enviar Pedido pelo WhatsApp
+      </button>
+      <button class="btn-clear-cart" onclick="clearCart()">🗑 Limpar carrinho</button>
+    </div>
+  </div>
+</div>
 
-<!-- Toast -->
+<a href="#" class="whatsapp-float" onclick="openWhatsApp('Olá! Vim pelo catálogo DNL Imports.'); return false;" title="Fale conosco">💬</a>
+
 <div class="toast" id="toast"><span class="toast-icon">✓</span><span id="toastMsg"></span></div>
 
-<script src="js/store.js"></script>
 <script>
-  function handleSearch(e) {
-    e.preventDefault();
-    const q = document.getElementById('searchInput').value.trim();
-    if (q) window.location.href = `catalogo.html?q=${encodeURIComponent(q)}`;
+  const WHATSAPP_NUMBER = '5588996989484';
+
+  const PRODUCTS = [
+    { id: 'brasil', name: 'Camisa Seleção Brasileira', club: 'Seleção Brasileira', category: 'brasil',
+      price: 74.90, oldPrice: 119.90, badge: '🇧🇷 Seleção', badgeClass: 'new', sizes: ['P', 'M'],
+      imgs: ['images/BRASIL 1.jpeg','images/BRASIL 2.jpeg','images/BRASIL 3.jpeg'] },
+
+    { id: 'flamengo', name: 'Camisa Flamengo Oficial', club: 'Flamengo', category: 'flamengo',
+      price: 74.90, oldPrice: 119.90, badge: '🔥 Mais Vendida', badgeClass: '', sizes: ['P', 'M'],
+      imgs: ['images/FLA 1.jpeg','images/FLA 2.jpeg','images/FLA 3.jpeg','images/FLA 4.jpeg','images/FLA 5.jpeg'] },
+
+    { id: 'flamengo-black', name: 'Camisa Flamengo Black Edition', club: 'Flamengo', category: 'flamengo',
+      price: 74.90, oldPrice: 119.90, badge: '⚫ Black Edition', badgeClass: '', sizes: ['P', 'M'],
+      imgs: ['images/FLA BLACK 1.jpeg','images/FLA BLACK 2.jpeg','images/FLA BLACK 3.jpeg','images/FLA BLACK 4.jpeg'] },
+
+    { id: 'flamengo-retro', name: 'Camisa Flamengo Retrô Umbro', club: 'Flamengo', category: 'flamengo',
+      price: 74.90, oldPrice: 119.90, badge: '🕰 Edição Retrô', badgeClass: '', sizes: ['P', 'M'],
+      imgs: ['images/FLA RETRO UMBRO 1.jpeg','images/FLA RETRO UMBRO 2.jpeg','images/FLA RETRO UMBRO 3.jpeg','images/FLA RETRO UMBRO 4.jpeg','images/FLA RETRO UMBRO 5.jpeg','images/FLA RETRO UMBRO 6.jpeg','images/FLA RETRO UMBRO 7.jpeg'] },
+
+    { id: 'palmeiras', name: 'Camisa Palmeiras Oficial', club: 'Palmeiras', category: 'palmeiras',
+      price: 74.90, oldPrice: 119.90, badge: '💚 Verdão', badgeClass: 'new', sizes: ['P', 'M'],
+      imgs: ['images/PALMEIRAS 1.png','images/PALMEIRAS 2.jpeg','images/PALMEIRAS 3.jpeg','images/PALMEIRAS 4.jpeg','images/PALMEIRAS 5.png'] },
+
+    { id: 'liverpool', name: 'Camisa Liverpool FC', club: 'Liverpool', category: 'liverpool',
+      price: 74.90, oldPrice: 119.90, badge: '🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League', badgeClass: '', sizes: ['P', 'M'],
+      imgs: ['images/LIVERPOOL 1.jpeg','images/LIVERPOOL 2.jpeg','images/LIVERPOOL 3.jpeg'] },
+
+    { id: 'alemanha', name: 'Camisa Seleção Alemanha', club: 'Alemanha', category: 'alemanha',
+      price: 74.90, oldPrice: 119.90, badge: '🇩🇪 Seleção', badgeClass: '', sizes: ['P', 'M'],
+      imgs: ['images/ALEMANHA 1.jpeg','images/ALEMANHA 2.jpeg','images/ALEMANHA 3.jpeg','images/ALEMANHA 4.jpeg'] },
+
+    { id: 'alnassr', name: 'Camisa Al Nassr FC', club: 'Al Nassr', category: 'alnassr',
+      price: 74.90, oldPrice: 119.90, badge: '⭐ CR7', badgeClass: '', sizes: ['P', 'M'],
+      imgs: ['images/ALNASSR 1.jpeg','images/ALNASSR 2.jpeg'] },
+  ];
+
+  let cart = JSON.parse(localStorage.getItem('dnl_cart') || '[]');
+  let activeFilter = 'todos';
+
+  function fmt(v) { return v.toFixed(2).replace('.', ','); }
+
+  function saveCart() {
+    localStorage.setItem('dnl_cart', JSON.stringify(cart));
+    updateBadge();
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
-    Store.updateBadge();
+  function updateBadge() {
+    document.getElementById('cartBadge').textContent = cart.reduce((s, i) => s + i.qty, 0);
+  }
 
-    // Mais vendidos: produtos com mais reviews
-    const top = [...Store.PRODUCTS].sort((a, b) => b.reviews - a.reviews).slice(0, 8);
-    document.getElementById('featuredGrid').innerHTML = top.map(p => Store.renderCard(p)).join('');
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._t);
+    t._t = setTimeout(() => t.classList.remove('show'), 3000);
+  }
 
-    // Novidades: badge novo ou últimos 4
-    const novos = Store.PRODUCTS.filter(p => p.badge === 'Novo' || p.badge === 'Lançamento' || p.badge === 'Infantil' || p.badge === 'Feminino').slice(0, 4);
-    document.getElementById('novosGrid').innerHTML = novos.map(p => Store.renderCard(p)).join('');
-  });
+  function openWhatsApp(msg) {
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+  }
+
+  function getSelectedSize(cardId) {
+    const el = document.querySelector(`#card-${cardId} .size-chip.selected`);
+    return el ? el.textContent : null;
+  }
+
+  function selectSize(cardId, el) {
+    document.querySelectorAll(`#card-${cardId} .size-chip`).forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+
+  function setCardImg(cardId, src, thumbEl) {
+    document.querySelector(`#card-${cardId} .card-gallery-main img`).src = src;
+    document.querySelectorAll(`#card-${cardId} .card-thumb`).forEach(t => t.classList.remove('active'));
+    thumbEl.classList.add('active');
+  }
+
+  function orderSingle(productId) {
+    const size = getSelectedSize(productId);
+    if (!size) { showToast('Selecione um tamanho primeiro!'); return; }
+    const p = PRODUCTS.find(x => x.id === productId);
+    const msg = `Olá! Gostaria de pedir:\n\n👕 *${p.name}*\n📏 Tamanho: *${size}*\n💰 Valor: *R$ ${fmt(p.price)}*\n\nVi no catálogo: danielimports.shop`;
+    openWhatsApp(msg);
+  }
+
+  function addToCart(productId) {
+    const size = getSelectedSize(productId);
+    if (!size) { showToast('Selecione um tamanho primeiro!'); return; }
+    const p = PRODUCTS.find(x => x.id === productId);
+    const key = `${productId}_${size}`;
+    const existing = cart.find(i => i.key === key);
+    if (existing) { existing.qty++; }
+    else { cart.push({ key, productId, name: p.name, price: p.price, size, qty: 1, img: p.imgs[0] }); }
+    saveCart();
+    showToast(`"${p.name}" adicionado ao carrinho!`);
+  }
+
+  function removeFromCart(key) {
+    cart = cart.filter(i => i.key !== key);
+    saveCart(); renderCart();
+  }
+
+  function clearCart() {
+    cart = []; saveCart(); renderCart();
+  }
+
+  function openCart() { renderCart(); document.getElementById('cartOverlay').classList.add('open'); }
+  function closeCart() { document.getElementById('cartOverlay').classList.remove('open'); }
+  function closeCartOnOverlay(e) { if (e.target === document.getElementById('cartOverlay')) closeCart(); }
+
+  function renderCart() {
+    const body = document.getElementById('cartBody');
+    const footer = document.getElementById('cartFooter');
+
+    if (!cart.length) {
+      body.innerHTML = `<div class="cart-empty-msg"><div class="ce-icon">🛒</div><p>Carrinho vazio.</p></div>`;
+      footer.style.display = 'none';
+      return;
+    }
+
+    body.innerHTML = cart.map(i => `
+      <div class="cart-item">
+        <img class="cart-item-img" src="${i.img}" alt="${i.name}">
+        <div class="cart-item-info">
+          <div class="cart-item-name">${i.name}</div>
+          <div class="cart-item-size">Tam: ${i.size} · Qtd: ${i.qty}</div>
+          <div class="cart-item-price">R$ ${fmt(i.price * i.qty)}</div>
+        </div>
+        <button class="cart-item-remove" onclick="removeFromCart('${i.key}')">×</button>
+      </div>`).join('');
+
+    const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    document.getElementById('cartTotal').textContent = `R$ ${fmt(total)}`;
+    footer.style.display = 'block';
+  }
+
+  function sendCartToWhatsApp() {
+    if (!cart.length) return;
+    const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    let msg = `Olá! Gostaria de fazer o seguinte pedido:\n\n`;
+    cart.forEach(i => { msg += `👕 *${i.name}*\n📏 Tam: ${i.size} | Qtd: ${i.qty} | R$ ${fmt(i.price * i.qty)}\n\n`; });
+    msg += `💰 *Total: R$ ${fmt(total)}*\n\nVi no catálogo: danielimports.shop`;
+    openWhatsApp(msg);
+  }
+
+  function setFilter(cat, btn) {
+    activeFilter = cat;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderProducts();
+  }
+
+  function filterProducts() {
+    renderProducts();
+  }
+
+  function renderProducts() {
+    const grid = document.getElementById('productsGrid');
+    const q = document.getElementById('searchInput').value.toLowerCase();
+
+    const list = PRODUCTS.filter(p => {
+      const matchCat    = activeFilter === 'todos' || p.category === activeFilter;
+      const matchSearch = !q || p.name.toLowerCase().includes(q) || p.club.toLowerCase().includes(q);
+      return matchCat && matchSearch;
+    });
+
+    document.getElementById('resultsInfo').textContent = `${list.length} produto${list.length !== 1 ? 's' : ''}`;
+
+    if (!list.length) {
+      grid.innerHTML = `<div class="no-results"><div class="nr-icon">🔍</div><p>Nenhum produto encontrado.</p></div>`;
+      return;
+    }
+
+    grid.innerHTML = list.map(p => {
+      const thumbs = p.imgs.length > 1 ? `<div class="card-thumbs">` +
+        p.imgs.map((src, i) => `<div class="card-thumb ${i===0?'active':''}" onclick="setCardImg('${p.id}','${src}',this)"><img src="${src}" loading="lazy"></div>`).join('') +
+        `</div>` : '';
+
+      const sizes = p.sizes.map(s =>
+        `<span class="size-chip" onclick="selectSize('${p.id}', this)">${s}</span>`
+      ).join('');
+
+      return `
+        <div class="product-card" id="card-${p.id}">
+          <div class="card-gallery">
+            <div class="card-gallery-main">
+              <img src="${p.imgs[0]}" alt="${p.name}" loading="lazy">
+            </div>
+            ${thumbs}
+            <span class="card-badge ${p.badgeClass}">${p.badge}</span>
+          </div>
+          <div class="card-info">
+            <div class="card-club">${p.club}</div>
+            <div class="card-name">${p.name}</div>
+            <div class="card-price-block">
+              <div class="card-price-old">De R$ ${fmt(p.oldPrice)}</div>
+              <div class="card-price">R$ ${fmt(p.price)}</div>
+              <div class="card-price-tag">à vista · ou em até 12x</div>
+            </div>
+            <div class="card-sizes">
+              <div class="card-sizes-label">Tamanho disponível:</div>
+              <div class="sizes-row">${sizes}</div>
+            </div>
+            <div class="card-actions">
+              <button class="btn-whatsapp" onclick="orderSingle('${p.id}')">💬 Pedir no WhatsApp</button>
+              <button class="btn-cart" onclick="addToCart('${p.id}')">🛒 Adicionar ao Carrinho</button>
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  updateBadge();
+  renderProducts();
 </script>
 </body>
 </html>
