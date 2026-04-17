@@ -310,16 +310,8 @@
       padding: 4px 10px; border-radius: 10px;
     }
     .card-badge.new { background: var(--green-light); color: #fff; }
-    .card-pills {
-      display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 4px;
-    }
-    .pill-tailandesa, .pill-encomenda {
-      font-size: 9px; font-weight: 700;
-      padding: 2px 7px; border-radius: 8px;
-      display: inline-block;
-    }
-    .pill-tailandesa { background: #ede9fe; color: #6d28d9; }
-    .pill-encomenda  { background: #fff3e0; color: #e65100; }
+    .tag-thai { color: #7c3aed; font-weight:700; }
+    .tag-enc  { color: #e65100; font-weight:700; }
 
     .card-info { padding: 14px; flex: 1; display: flex; flex-direction: column; }
     .card-club { font-size: 10px; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px; }
@@ -1561,8 +1553,7 @@
             
           </div>
           <div class="card-info">
-            <div class="card-club">${p.club}</div>
-            <div class="card-pills">${p.tailandesa ? '<span class="pill-tailandesa">🇹🇭 Tailandesa</span>' : ''}${p.encomenda ? '<span class="pill-encomenda">📦 Encomenda</span>' : ''}</div>
+            <div class="card-club">${p.club}${p.tailandesa ? ' &nbsp;·&nbsp; <span class="tag-thai">🇹🇭 Tailandesa</span>' : ''}${p.encomenda && !p.tailandesa ? ' &nbsp;·&nbsp; <span class="tag-enc">📦 Encomenda</span>' : ''}</div>
             <div class="card-name" onclick="openModal('${p.id}')" style="cursor:pointer">${p.name}</div>
             <div class="card-price-block">
               <div class="card-price-old">De R$ ${fmt(p.oldPrice)}</div>
